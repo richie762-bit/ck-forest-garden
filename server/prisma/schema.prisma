@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for admin authentication
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String   // Hashed password with bcrypt
+  name      String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+// Booking model for customer bookings
+model Booking {
+  id                  Int      @id @default(autoincrement())
+  bookingReference    String   @unique // Format: CK-{timestamp}-{random}
+  customerName        String
+  customerEmail       String
+  customerPhone       String
+  bookingType         String   // e.g., "Day Visit", "Camping", "Event"
+  numberOfAdults      Int      // Minimum 10 required
+  numberOfChildren    Int      @default(0) // Children under 12 are FREE
+  dateFrom            DateTime // Start date of booking
+  dateTo              DateTime // End date of booking
+  numberOfDays        Int      // Calculated: dateTo - dateFrom
+  ratePerAdultPerDay  Int      @default(5000) // GYD 5,000 per adult per day
+  totalAmount         Int      // Calculated: numberOfAdults × 5000 × numberOfDays
+  bookingStatus       String   @default("pending") // pending, confirmed, completed, cancelled
+  paymentStatus       String   @default("pending") // pending, paid
+  paymentReceiptPath  String?  // Path to uploaded payment receipt
+  cancellationReason  String?  // Reason if booking is cancelled
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([bookingReference])
+  @@index([customerEmail])
+  @@index([bookingStatus])
+  @@index([createdAt])
+  @@map("bookings")
+}
