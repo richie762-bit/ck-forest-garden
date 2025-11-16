@@ -39,8 +39,11 @@ services:
   - type: web
     name: ck-forest-garden-frontend
     env: static
-    buildCommand: cd client && VITE_API_URL=https://ck-forest-garden-api.onrender.com/api npm install && npm run build
+    buildCommand: cd client && npm install && npm run build
     staticPublishPath: client/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://ck-forest-garden-api.onrender.com/api
 
 databases:
   # PostgreSQL Database
