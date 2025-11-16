@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import bookingRoutes from './routes/bookingRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import setupRoutes from './routes/setupRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 // Get __dirname equivalent in ES modules
@@ -69,6 +70,7 @@ const createApp = () => {
   // API routes
   app.use('/api/bookings', bookingRoutes);
   app.use('/api/admin', adminRoutes);
+  app.use('/api/setup', setupRoutes);
 
   // 404 handler for undefined routes
   app.use('*', (req, res) => {
