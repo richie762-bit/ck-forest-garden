@@ -39,7 +39,6 @@ services:
   - type: web
     name: ck-forest-garden-frontend
     env: static
-    region: oregon
     buildCommand: cd client && npm install && npm run build
     staticPublishPath: client/dist
     envVars:
