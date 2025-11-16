@@ -54,10 +54,10 @@ export const bookingSchema = z
     (data) => {
       const start = new Date(data.dateFrom);
       const end = new Date(data.dateTo);
-      return end > start;
+      return end >= start;
     },
     {
-      message: 'End date must be after start date',
+      message: 'End date cannot be before start date',
       path: ['dateTo'],
     }
   );

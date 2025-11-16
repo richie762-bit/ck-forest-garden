@@ -10,17 +10,18 @@ export const generateBookingReference = () => {
 };
 
 /**
- * Calculate number of days between two dates
+ * Calculate number of days between two dates (inclusive)
  * @param {Date} dateFrom - Start date
  * @param {Date} dateTo - End date
- * @returns {number} Number of days
+ * @returns {number} Number of days (inclusive - same day = 1, next day = 2, etc.)
  */
 export const calculateNumberOfDays = (dateFrom, dateTo) => {
   const start = new Date(dateFrom);
   const end = new Date(dateTo);
   const diffTime = Math.abs(end - start);
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays;
+  // Add 1 to make it inclusive (16th to 16th = 1 day, 15th to 16th = 2 days)
+  return diffDays + 1;
 };
 
 /**
@@ -175,9 +176,9 @@ export const validateBookingDates = (dateFrom, dateTo) => {
     errors.push('Start date cannot be in the past');
   }
 
-  // Check if end date is after start date
-  if (end <= start) {
-    errors.push('End date must be after start date');
+  // Check if end date is before start date (same-day bookings are allowed)
+  if (end < start) {
+    errors.push('End date cannot be before start date');
   }
 
   return {

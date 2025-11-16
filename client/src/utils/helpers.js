@@ -48,17 +48,18 @@ export const formatDateForInput = (date) => {
 };
 
 /**
- * Calculate number of days between two dates
+ * Calculate number of days between two dates (inclusive)
  * @param {string|Date} dateFrom
  * @param {string|Date} dateTo
- * @returns {number}
+ * @returns {number} Number of days (inclusive - same day = 1, next day = 2, etc.)
  */
 export const calculateDays = (dateFrom, dateTo) => {
   const start = new Date(dateFrom);
   const end = new Date(dateTo);
   const diffTime = Math.abs(end - start);
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays;
+  // Add 1 to make it inclusive (16th to 16th = 1 day, 15th to 16th = 2 days)
+  return diffDays + 1;
 };
 
 /**

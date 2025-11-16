@@ -65,10 +65,10 @@ export const createBookingSchema = z.object({
     .transform((str) => new Date(str)),
 }).refine(
   (data) => {
-    return data.dateTo > data.dateFrom;
+    return data.dateTo >= data.dateFrom;
   },
   {
-    message: 'Date to must be after date from',
+    message: 'Date to cannot be before date from',
     path: ['dateTo'],
   }
 );
