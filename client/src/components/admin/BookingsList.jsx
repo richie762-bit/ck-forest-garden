@@ -14,6 +14,7 @@ import {
   getAllBookings,
   updateBookingStatus,
   cancelBooking,
+  deleteBookingPermanently,
 } from '../../services/api';
 import {
   formatCurrency,
@@ -125,6 +126,26 @@ const BookingsList = () => {
       const response = await cancelBooking(bookingId, reason);
       if (response.status === 'success') {
         toast.success('Booking cancelled successfully');
+        fetchBookings();
+        setIsDetailsModalOpen(false);
+      }
+    } catch (error) {
+      toast.error(parseErrorMessage(error));
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleDeleteBooking = async (bookingId) => {
+    if (!window.confirm('⚠️ PERMANENT DELETE: Are you sure you want to permanently delete this booking? This action cannot be undone!')) {
+      return;
+    }
+
+    setIsUpdating(true);
+    try {
+      const response = await deleteBookingPermanently(bookingId);
+      if (response.status === 'success') {
+        toast.success('Booking permanently deleted');
         fetchBookings();
         setIsDetailsModalOpen(false);
       }
@@ -499,6 +520,20 @@ const BookingsList = () => {
                     className="btn btn-danger"
                   >
                     Cancel Booking
+                  </button>
+                </div>
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <h3 className="font-semibold text-red-600 mb-3">Danger Zone</h3>
+                  <p className="text-sm text-gray-600 mb-3">
+                    Permanently delete this booking from the database. This action cannot be undone.
+                  </p>
+                  <button
+                    onClick={() => handleDeleteBooking(selectedBooking.id)}
+                    disabled={isUpdating}
+                    className="btn bg-red-600 hover:bg-red-700 text-white"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete Permanently
                   </button>
                 </div>
               </div>

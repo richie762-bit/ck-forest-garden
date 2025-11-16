@@ -321,6 +321,33 @@ export const cancelBooking = asyncHandler(async (req, res) => {
 });
 
 /**
+ * @desc    Permanently delete booking
+ * @route   DELETE /api/admin/bookings/:id/permanent
+ * @access  Private (Admin)
+ */
+export const deleteBookingPermanently = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  // Check if booking exists
+  const booking = await prisma.booking.findUnique({
+    where: { id: parseInt(id) },
+  });
+
+  if (!booking) {
+    throw new AppError('Booking not found', 404);
+  }
+
+  // Permanently delete the booking from database
+  await prisma.booking.delete({
+    where: { id: parseInt(id) },
+  });
+
+  res.status(200).json(
+    successResponse(null, 'Booking permanently deleted successfully')
+  );
+});
+
+/**
  * @desc    Get current admin user info
  * @route   GET /api/admin/me
  * @access  Private (Admin)

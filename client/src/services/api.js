@@ -183,4 +183,12 @@ export const cancelBooking = async (id, cancellationReason) => {
   return response.data;
 };
 
+/**
+ * Permanently delete booking
+ */
+export const deleteBookingPermanently = async (id) => {
+  const response = await api.delete(`/admin/bookings/${id}/permanent`);
+  return response.data;
+};
+
 export default api;

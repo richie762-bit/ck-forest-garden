@@ -6,6 +6,7 @@ import {
   getBookingById,
   updateBookingStatus,
   cancelBooking,
+  deleteBookingPermanently,
   getCurrentAdmin,
 } from '../controllers/adminController.js';
 import { protect, authorize } from '../middleware/auth.js';
@@ -59,5 +60,8 @@ router.patch(
 
 // Cancel booking
 router.delete('/bookings/:id', protect, authorize('admin'), cancelBooking);
+
+// Permanently delete booking
+router.delete('/bookings/:id/permanent', protect, authorize('admin'), deleteBookingPermanently);
 
 export default router;
