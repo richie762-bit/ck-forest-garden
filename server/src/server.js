@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import createApp from './app.js';
 import { connectDatabase, disconnectDatabase } from './config/database.js';
 import { verifyEmailConfig } from './config/email.js';
+import migrateAndSeed from './scripts/migrate-and-seed.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -42,6 +43,11 @@ const startServer = async () => {
 
     // Connect to database
     await connectDatabase();
+
+    // Run database migrations and seed (production only)
+    if (NODE_ENV === 'production') {
+      await migrateAndSeed();
+    }
 
     // Verify email configuration (non-blocking)
     // Temporarily disabled for development
