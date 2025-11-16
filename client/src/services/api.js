@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-// Get API URL from environment variables
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Get API URL from environment variables with production fallback
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production'
+  ? 'https://ck-forest-garden-api.onrender.com/api'
+  : 'http://localhost:3000/api');
 
 /**
  * Create axios instance with default config
