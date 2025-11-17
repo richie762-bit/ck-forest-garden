@@ -137,7 +137,7 @@ const BookingsList = () => {
   };
 
   const handleDeleteBooking = async (bookingId) => {
-    if (!window.confirm('⚠️ PERMANENT DELETE: Are you sure you want to permanently delete this booking? This action cannot be undone!')) {
+    if (!window.confirm('PERMANENT DELETE: Are you sure you want to permanently delete this booking? This action cannot be undone!')) {
       return;
     }
 
