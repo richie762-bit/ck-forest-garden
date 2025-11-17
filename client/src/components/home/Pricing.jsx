@@ -176,19 +176,15 @@ const Pricing = () => {
             </p>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-primary-50 rounded-xl p-4">
-                <div className="text-2xl mb-1">🌲</div>
                 <p className="text-sm font-semibold text-gray-900">All Facilities</p>
               </div>
               <div className="bg-primary-50 rounded-xl p-4">
-                <div className="text-2xl mb-1">🚻</div>
                 <p className="text-sm font-semibold text-gray-900">Clean Restrooms</p>
               </div>
               <div className="bg-primary-50 rounded-xl p-4">
-                <div className="text-2xl mb-1">🅿️</div>
                 <p className="text-sm font-semibold text-gray-900">Free Parking</p>
               </div>
               <div className="bg-primary-50 rounded-xl p-4">
-                <div className="text-2xl mb-1">🛡️</div>
                 <p className="text-sm font-semibold text-gray-900">Safe & Secure</p>
               </div>
             </div>
