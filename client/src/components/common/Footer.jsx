@@ -102,7 +102,7 @@ const Footer = () => {
                   href="tel:+5927122534"
                   className="text-sm text-gray-400 hover:text-green-400 transition-colors"
                 >
-                  +592 712 2534
+                  712-CKFG (2534)
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -113,7 +113,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-sm text-gray-400 hover:text-green-400 transition-colors"
                 >
-                  WhatsApp: +592 712 2534
+                  WhatsApp: 712-CKFG (2534)
                 </a>
               </li>
               <li className="flex items-center gap-3">
