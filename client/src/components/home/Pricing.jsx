@@ -1,13 +1,10 @@
-import { useState } from 'react';
 import { Check, Users, Baby, Calendar, DollarSign } from 'lucide-react';
-import NewBookingModal from '../booking/NewBookingModal';
 
 /**
  * Pricing Component
  * Displays pricing information and booking options
  */
 const Pricing = () => {
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   const bookingTypes = [
     {
@@ -135,12 +132,14 @@ const Pricing = () => {
               </div>
             </div>
 
-            <button
-              onClick={() => setIsBookingModalOpen(true)}
-              className="btn btn-accent w-full mt-8 py-3 text-base"
+            <a
+              href="https://thestormkingg.github.io/ck-forest-gardens-booking-app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-accent w-full mt-8 py-3 text-base inline-block text-center"
             >
               Book Your Visit Now
-            </button>
+            </a>
           </div>
         </div>
 
@@ -198,9 +197,6 @@ const Pricing = () => {
           </div>
         </div>
       </div>
-
-      {/* Booking Modal */}
-      <NewBookingModal isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} />
     </section>
   );
 };
