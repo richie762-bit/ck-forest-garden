@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Mail, Lock, LogIn, Trees } from 'lucide-react';
+import { Mail, Lock, LogIn } from 'lucide-react';
 import { loginSchema } from '../../utils/validation';
 import { useAuth } from '../../context/AuthContext';
 import LoadingSpinner from '../common/LoadingSpinner';
@@ -114,13 +114,6 @@ const Login = () => {
               )}
             </button>
           </form>
-
-          {/* Demo Credentials */}
-          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-sm text-blue-800 font-semibold mb-2">Demo Credentials:</p>
-            <p className="text-xs text-blue-700">Email: admin@ckforestgarden.com</p>
-            <p className="text-xs text-blue-700">Password: Admin123!</p>
-          </div>
         </div>
 
         {/* Back to Home */}
