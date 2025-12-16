@@ -97,15 +97,6 @@ const Footer = () => {
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <a
-                  href="tel:+5927122534"
-                  className="text-sm text-gray-400 hover:text-green-400 transition-colors"
-                >
-                  712-CKFG (2534)
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
                 <MessageCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                 <a
                   href="https://wa.me/5927122534"
@@ -113,7 +104,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-sm text-gray-400 hover:text-green-400 transition-colors"
                 >
-                  WhatsApp: 712-CKFG (2534)
+                  WhatsApp: +592 712-CKFG (2534)
                 </a>
               </li>
               <li className="flex items-center gap-3">
