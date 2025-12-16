@@ -2,7 +2,29 @@
   "permissions": {
     "allow": [
       "Bash(taskkill //F //PID 26344)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill /F /PID 28192)",
+      "Bash(taskkill //F //PID 28192)",
+      "Bash(npm start)",
+      "Bash(taskkill //F //PID 4864)",
+      "Bash(npm run dev:*)",
+      "Bash(taskkill //F //PID 23832)",
+      "Bash(taskkill //F //PID 27640)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nFix render.yaml - remove region from static site\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(npx prisma migrate dev:*)",
+      "Bash(dir:*)",
+      "Bash(npx prisma migrate diff:*)",
+      "Bash(prisma/migrations/0_init/migration.sql)",
+      "Bash(prisma/migrations/20250116000000_init/migration.sql)",
+      "Bash(echo:*)",
+      "Bash(server/prisma/migrations/migration_lock.toml)",
+      "Bash(vercel:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []

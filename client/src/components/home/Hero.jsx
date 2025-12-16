@@ -25,7 +25,7 @@ const Hero = () => {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
               Welcome to
               <span className="block mt-2 bg-gradient-to-r from-accent-400 to-accent-500 bg-clip-text text-transparent">
-                CK Forest Garden
+                CK Forest Gardens
               </span>
             </h1>
             <p className="text-lg md:text-xl text-primary-100 mb-8 max-w-2xl mx-auto lg:mx-0">

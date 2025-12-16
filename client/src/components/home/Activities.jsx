@@ -48,7 +48,7 @@ const Activities = () => {
           </h2>
           <p className="text-lg text-gray-600">
             From peaceful relaxation to exciting adventures, there's something for everyone at
-            CK Forest Garden.
+            CK Forest Gardens.
           </p>
         </div>
 
@@ -87,7 +87,7 @@ const Activities = () => {
               Ready for Your Adventure?
             </h3>
             <p className="text-primary-100 mb-8 max-w-2xl mx-auto">
-              Book your visit today and experience all the amazing activities CK Forest Garden
+              Book your visit today and experience all the amazing activities CK Forest Gardens
               has to offer. Perfect for groups of 10 or more!
             </p>
             <Link
@@ -104,7 +104,7 @@ const Activities = () => {
           <div className="relative rounded-3xl overflow-hidden shadow-2xl">
             <img
               src="/assets/images/gallery/Advert.jpg"
-              alt="CK Forest Garden Experience"
+              alt="CK Forest Gardens Experience"
               className="w-full h-64 md:h-96 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/40 to-transparent flex items-end">

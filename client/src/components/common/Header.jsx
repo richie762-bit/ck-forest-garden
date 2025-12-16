@@ -29,11 +29,11 @@ const Header = () => {
           <Link to="/" className="flex items-center gap-3 group">
             <img
               src="/assets/images/logo/Logo.jpg"
-              alt="CK Forest Garden Logo"
+              alt="CK Forest Gardens Logo"
               className="w-12 h-12 rounded-full object-cover ring-2 ring-green-500 group-hover:ring-green-600 transition-all"
             />
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-gray-900">CK Forest Garden</span>
+              <span className="text-xl font-bold text-gray-900">CK Forest Gardens</span>
               <span className="text-xs text-green-600">Nature's Paradise</span>
             </div>
           </Link>

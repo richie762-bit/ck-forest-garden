@@ -29,7 +29,7 @@ const Gallery = () => {
             Gallery & <span className="gradient-text">Highlights</span>
           </h2>
           <p className="text-lg text-gray-600">
-            Explore the beauty of CK Forest Garden through these highlights from our visitors
+            Explore the beauty of CK Forest Gardens through these highlights from our visitors
             and activities.
           </p>
         </div>

@@ -50,11 +50,11 @@ const Login = () => {
           <div className="flex items-center justify-center gap-3 mb-4">
             <img
               src="/assets/images/logo/Logo.jpg"
-              alt="CK Forest Garden Logo"
+              alt="CK Forest Gardens Logo"
               className="w-16 h-16 rounded-full object-cover ring-4 ring-white shadow-xl"
             />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">CK Forest Garden</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">CK Forest Gardens</h1>
           <p className="text-primary-100">Admin Portal</p>
         </div>
 

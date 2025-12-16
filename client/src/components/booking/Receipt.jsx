@@ -37,7 +37,7 @@ const Receipt = ({ booking }) => {
       <div className="card p-8 mb-6">
         {/* Header */}
         <div className="text-center border-b border-gray-200 pb-6 mb-6">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">CK Forest Garden</h3>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">CK Forest Gardens</h3>
           <p className="text-gray-600">Booking Receipt</p>
         </div>
 

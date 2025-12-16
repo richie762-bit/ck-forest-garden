@@ -17,11 +17,11 @@ const Footer = () => {
             <div className="flex items-center gap-3 mb-4">
               <img
                 src="/assets/images/logo/Logo.jpg"
-                alt="CK Forest Garden Logo"
+                alt="CK Forest Gardens Logo"
                 className="w-10 h-10 rounded-full object-cover ring-2 ring-green-500"
               />
               <div className="flex flex-col">
-                <span className="text-xl font-bold text-white">CK Forest Garden</span>
+                <span className="text-xl font-bold text-white">CK Forest Gardens</span>
                 <span className="text-xs text-green-400">Nature's Paradise</span>
               </div>
             </div>
@@ -165,7 +165,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-sm text-gray-400">
-            &copy; {currentYear} CK Forest Garden. All rights reserved.
+            &copy; {currentYear} CK Forest Gardens. All rights reserved.
           </p>
         </div>
       </div>

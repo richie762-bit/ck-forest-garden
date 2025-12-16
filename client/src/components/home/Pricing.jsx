@@ -174,7 +174,7 @@ const Pricing = () => {
           <div className="order-2 md:order-1">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Visit?</h3>
             <p className="text-gray-600 mb-6">
-              CK Forest Garden welcomes you to experience nature at its finest. Our transparent pricing and family-friendly policies make it easy to plan your perfect getaway.
+              CK Forest Gardens welcomes you to experience nature at its finest. Our transparent pricing and family-friendly policies make it easy to plan your perfect getaway.
             </p>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-primary-50 rounded-xl p-4">
@@ -194,7 +194,7 @@ const Pricing = () => {
           <div className="order-1 md:order-2">
             <img
               src="/assets/images/gallery/Sign.jpg"
-              alt="CK Forest Garden Welcome Sign"
+              alt="CK Forest Gardens Welcome Sign"
               className="w-full h-auto rounded-2xl shadow-xl"
             />
           </div>

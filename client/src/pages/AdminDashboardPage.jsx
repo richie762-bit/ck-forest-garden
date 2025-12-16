@@ -36,11 +36,11 @@ const AdminDashboardPage = () => {
           <div className="flex items-center gap-3">
             <img
               src="/assets/images/logo/Logo.jpg"
-              alt="CK Forest Garden Logo"
+              alt="CK Forest Gardens Logo"
               className="w-10 h-10 rounded-full object-cover ring-2 ring-green-500"
             />
             <div>
-              <h1 className="text-xl font-bold text-gray-900">CK Forest Garden</h1>
+              <h1 className="text-xl font-bold text-gray-900">CK Forest Gardens</h1>
               <p className="text-xs text-green-600">Admin Portal</p>
             </div>
           </div>

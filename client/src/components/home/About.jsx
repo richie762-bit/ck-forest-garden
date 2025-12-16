@@ -11,7 +11,7 @@ const About = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            About <span className="gradient-text">CK Forest Garden</span>
+            About <span className="gradient-text">CK Forest Gardens</span>
           </h2>
           <p className="text-lg text-gray-600">
             A sanctuary where nature and adventure come together to create unforgettable
@@ -26,7 +26,7 @@ const About = () => {
             <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
               <img
                 src="/assets/images/gallery/Overhead.jpg"
-                alt="CK Forest Garden Aerial View"
+                alt="CK Forest Gardens Aerial View"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -40,7 +40,7 @@ const About = () => {
               Your Gateway to Nature's Beauty
             </h3>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              CK Forest Garden is more than just a destination—it's an experience. Located in
+              CK Forest Gardens is more than just a destination—it's an experience. Located in
               the heart of Guyana, our 50+ acre paradise offers a perfect blend of natural
               beauty, recreational activities, and peaceful relaxation.
             </p>
