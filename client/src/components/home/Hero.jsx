@@ -1,11 +1,15 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Users, MapPin } from 'lucide-react';
+import NewBookingModal from '../booking/NewBookingModal';
 
 /**
  * Hero Component
  * Main hero section with call-to-action
  */
 const Hero = () => {
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
   return (
     <section id="home" className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
       {/* Background Image */}
@@ -35,15 +39,13 @@ const Hero = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <a
-                href="https://thestormkingg.github.io/ck-forest-gardens-booking-app/"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => setIsBookingModalOpen(true)}
                 className="btn btn-accent px-8 py-4 text-lg"
               >
                 <Calendar className="w-5 h-5 mr-2 inline" />
                 Book Your Visit
-              </a>
+              </button>
               <Link
                 to="/about"
                 className="btn btn-secondary px-8 py-4 text-lg bg-white/10 border-white/30 hover:bg-white/20 text-white"
@@ -127,6 +129,9 @@ const Hero = () => {
           </div>
         </div>
       </div>
+
+      {/* Booking Modal */}
+      <NewBookingModal isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} />
     </section>
   );
 };
