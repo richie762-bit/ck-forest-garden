@@ -1,18 +1,24 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Package, LogOut, Trees } from 'lucide-react';
+import { Package, LogOut, Trees, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getGreeting } from '../utils/helpers';
 
 /**
  * AdminDashboardPage Component
- * Admin dashboard layout with sidebar navigation
+ * Admin dashboard layout with collapsible sidebar navigation
  */
 const AdminDashboardPage = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const isActive = (path) => {
     return location.pathname === path;
+  };
+
+  const toggleSidebar = () => {
+    setSidebarCollapsed(!sidebarCollapsed);
   };
 
   const navItems = [
@@ -54,7 +60,20 @@ const AdminDashboardPage = () => {
 
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-64 bg-white shadow-sm min-h-[calc(100vh-73px)] sticky top-[73px]">
+        <aside className={`${sidebarCollapsed ? 'w-20' : 'w-64'} bg-white shadow-sm min-h-[calc(100vh-73px)] sticky top-[73px] transition-all duration-300 relative`}>
+          {/* Collapse Toggle Button */}
+          <button
+            onClick={toggleSidebar}
+            className="absolute -right-3 top-6 bg-white border border-gray-200 rounded-full p-1 shadow-md hover:bg-gray-50 transition-colors z-10"
+            aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            {sidebarCollapsed ? (
+              <ChevronRight className="w-4 h-4 text-gray-600" />
+            ) : (
+              <ChevronLeft className="w-4 h-4 text-gray-600" />
+            )}
+          </button>
+
           <nav className="p-4 space-y-2">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -62,14 +81,15 @@ const AdminDashboardPage = () => {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'gap-3'} px-4 py-3 rounded-lg transition-colors ${
                     isActive(item.path)
                       ? 'bg-primary-50 text-primary-600 font-semibold'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
+                  title={sidebarCollapsed ? item.label : ''}
                 >
                   <Icon className="w-5 h-5" />
-                  <span>{item.label}</span>
+                  {!sidebarCollapsed && <span>{item.label}</span>}
                 </Link>
               );
             })}
@@ -80,19 +100,21 @@ const AdminDashboardPage = () => {
             {/* Back to Home */}
             <Link
               to="/"
-              className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'gap-3'} px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors`}
+              title={sidebarCollapsed ? 'View Website' : ''}
             >
               <Trees className="w-5 h-5" />
-              <span>View Website</span>
+              {!sidebarCollapsed && <span>View Website</span>}
             </Link>
 
             {/* Logout */}
             <button
               onClick={logout}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors w-full"
+              className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'gap-3'} px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors w-full`}
+              title={sidebarCollapsed ? 'Logout' : ''}
             >
               <LogOut className="w-5 h-5" />
-              <span>Logout</span>
+              {!sidebarCollapsed && <span>Logout</span>}
             </button>
           </nav>
         </aside>

@@ -10,6 +10,7 @@ import AboutPage from './pages/AboutPage';
 import ActivitiesPage from './pages/ActivitiesPage';
 import PricingPage from './pages/PricingPage';
 import GalleryPage from './pages/GalleryPage';
+import TermsPage from './pages/TermsPage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/activities" element={<ActivitiesPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/terms" element={<TermsPage />} />
           <Route path="/admin/login" element={<AdminLoginPage />} />
 
           {/* Protected Admin Routes */}
