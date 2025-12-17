@@ -32,7 +32,7 @@ const Login = () => {
     setIsLoading(false);
 
     if (result.success) {
-      navigate('/admin/dashboard');
+      navigate('/admin/packages');
     }
   };
 

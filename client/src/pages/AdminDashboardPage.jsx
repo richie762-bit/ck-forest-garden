@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Calendar, Package, LogOut, Trees } from 'lucide-react';
+import { Package, LogOut, Trees } from 'lucide-react';
 import { getGreeting } from '../utils/helpers';
 
 /**
@@ -16,16 +16,6 @@ const AdminDashboardPage = () => {
   };
 
   const navItems = [
-    {
-      path: '/admin/dashboard',
-      icon: LayoutDashboard,
-      label: 'Dashboard',
-    },
-    {
-      path: '/admin/bookings',
-      icon: Calendar,
-      label: 'Bookings',
-    },
     {
       path: '/admin/packages',
       icon: Package,

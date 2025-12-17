@@ -14,8 +14,6 @@ import AdminLoginPage from './pages/AdminLoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 
 // Admin Components
-import Dashboard from './components/admin/Dashboard';
-import BookingsList from './components/admin/BookingsList';
 import PackagesList from './components/admin/PackagesList';
 
 /**
@@ -44,10 +42,8 @@ function App() {
               </ProtectedRoute>
             }
           >
-            {/* Redirect /admin to /admin/dashboard */}
-            <Route index element={<Navigate to="/admin/dashboard" replace />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="bookings" element={<BookingsList />} />
+            {/* Redirect /admin to /admin/packages */}
+            <Route index element={<Navigate to="/admin/packages" replace />} />
             <Route path="packages" element={<PackagesList />} />
           </Route>
 
