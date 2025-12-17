@@ -196,6 +196,37 @@ const Pricing = () => {
             <p className="text-sm text-gray-600">Check back soon for updates!</p>
           </div>
         )}
+
+        {/* Welcome Sign & Facilities */}
+        <div className="mt-12 grid md:grid-cols-2 gap-8 items-center max-w-6xl mx-auto">
+          <div className="order-2 md:order-1">
+            <h3 className="text-2xl font-bold text-gray-900 mb-3">Ready to Visit?</h3>
+            <p className="text-gray-600 mb-6">
+              CK Forest Gardens welcomes you to experience nature at its finest. Our transparent pricing and family-friendly policies make it easy to plan your perfect getaway.
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-primary-50 rounded-lg p-3">
+                <p className="text-sm font-semibold text-gray-900">All Facilities</p>
+              </div>
+              <div className="bg-primary-50 rounded-lg p-3">
+                <p className="text-sm font-semibold text-gray-900">Clean Restrooms</p>
+              </div>
+              <div className="bg-primary-50 rounded-lg p-3">
+                <p className="text-sm font-semibold text-gray-900">Free Parking</p>
+              </div>
+              <div className="bg-primary-50 rounded-lg p-3">
+                <p className="text-sm font-semibold text-gray-900">Safe & Secure</p>
+              </div>
+            </div>
+          </div>
+          <div className="order-1 md:order-2">
+            <img
+              src="/assets/images/gallery/Sign.jpg"
+              alt="CK Forest Gardens Welcome Sign"
+              className="w-full h-auto rounded-xl shadow-lg"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
