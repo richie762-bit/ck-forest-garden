@@ -1,84 +1,76 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { adminLogin as apiAdminLogin, getCurrentAdmin } from '../services/api';
-import { saveUser, removeUser, getUser, isAuthenticated } from '../utils/helpers';
+import { supabase } from '../config/supabase';
 import toast from 'react-hot-toast';
 
 /**
- * Authentication Context
+ * Authentication Context - Supabase Auth
  */
 const AuthContext = createContext(null);
 
 /**
  * AuthProvider Component
- * Manages authentication state and provides auth methods
+ * Manages authentication state using Supabase Auth
  */
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [session, setSession] = useState(null);
 
   /**
-   * Initialize auth state from localStorage on mount
+   * Initialize auth state and listen for auth changes
    */
   useEffect(() => {
-    const initAuth = async () => {
-      try {
-        if (isAuthenticated()) {
-          const savedUser = getUser();
-          setUser(savedUser);
-          setIsAdmin(savedUser?.role === 'admin');
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
 
-          // Verify token is still valid by fetching current user
-          try {
-            const response = await getCurrentAdmin();
-            if (response.data) {
-              setUser(response.data);
-              setIsAdmin(response.data.role === 'admin');
-            }
-          } catch (error) {
-            // Token is invalid, clear auth state
-            console.error('Token validation failed:', error);
-            logout();
-          }
-        }
-      } catch (error) {
-        console.error('Auth initialization error:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
 
-    initAuth();
+    return () => subscription.unsubscribe();
   }, []);
 
   /**
-   * Login function
+   * Login function using Supabase Auth
    */
   const login = async (email, password) => {
     try {
       setLoading(true);
-      const response = await apiAdminLogin(email, password);
 
-      if (response.status === 'success' && response.data) {
-        const { user: userData, token } = response.data;
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-        // Save to localStorage
-        saveUser(userData, token);
+      if (error) {
+        throw error;
+      }
 
-        // Update state
-        setUser(userData);
-        setIsAdmin(userData.role === 'admin');
-
+      if (data.user && data.session) {
         toast.success('Login successful!');
         return { success: true };
       } else {
-        throw new Error('Invalid response from server');
+        throw new Error('Invalid response from authentication service');
       }
     } catch (error) {
-      const errorMessage =
-        error.customMessage ||
-        error.response?.data?.message ||
-        'Login failed. Please check your credentials.';
+      console.error('Login error:', error);
+
+      let errorMessage = 'Login failed. Please check your credentials.';
+
+      if (error.message === 'Invalid login credentials') {
+        errorMessage = 'Invalid email or password. Please try again.';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
 
       toast.error(errorMessage);
       return { success: false, error: errorMessage };
@@ -88,24 +80,28 @@ export const AuthProvider = ({ children }) => {
   };
 
   /**
-   * Logout function
+   * Logout function using Supabase Auth
    */
-  const logout = () => {
-    // Clear localStorage
-    removeUser();
+  const logout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
 
-    // Clear state
-    setUser(null);
-    setIsAdmin(false);
+      if (error) {
+        throw error;
+      }
 
-    toast.success('Logged out successfully');
+      toast.success('Logged out successfully');
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast.error('Failed to logout. Please try again.');
+    }
   };
 
   /**
    * Check if user is authenticated
    */
   const checkAuth = () => {
-    return isAuthenticated() && user !== null;
+    return session !== null && user !== null;
   };
 
   /**
@@ -113,12 +109,14 @@ export const AuthProvider = ({ children }) => {
    */
   const value = {
     user,
-    isAdmin,
+    session,
     loading,
     login,
     logout,
     checkAuth,
     isAuthenticated: user !== null,
+    // For backward compatibility with admin checks
+    isAdmin: user !== null,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

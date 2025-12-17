@@ -16,6 +16,7 @@ import AdminDashboardPage from './pages/AdminDashboardPage';
 // Admin Components
 import Dashboard from './components/admin/Dashboard';
 import BookingsList from './components/admin/BookingsList';
+import PackagesList from './components/admin/PackagesList';
 
 /**
  * App Component
@@ -47,6 +48,7 @@ function App() {
             <Route index element={<Navigate to="/admin/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="bookings" element={<BookingsList />} />
+            <Route path="packages" element={<PackagesList />} />
           </Route>
 
           {/* 404 - Redirect to Home */}

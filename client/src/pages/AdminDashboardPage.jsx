@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Calendar, LogOut, Trees, User } from 'lucide-react';
+import { LayoutDashboard, Calendar, Package, LogOut, Trees } from 'lucide-react';
 import { getGreeting } from '../utils/helpers';
 
 /**
@@ -26,6 +26,11 @@ const AdminDashboardPage = () => {
       icon: Calendar,
       label: 'Bookings',
     },
+    {
+      path: '/admin/packages',
+      icon: Package,
+      label: 'Packages',
+    },
   ];
 
   return (
@@ -48,10 +53,10 @@ const AdminDashboardPage = () => {
           <div className="flex items-center gap-4">
             <div className="text-right">
               <p className="text-sm font-medium text-gray-900">{getGreeting()}!</p>
-              <p className="text-xs text-gray-500">{user?.name}</p>
+              <p className="text-xs text-gray-500">{user?.email}</p>
             </div>
             <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold">
-              {user?.name?.charAt(0).toUpperCase()}
+              {user?.email?.charAt(0).toUpperCase() || 'A'}
             </div>
           </div>
         </div>

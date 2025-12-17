@@ -1,46 +1,71 @@
-import { Check, Users, Baby, Calendar, DollarSign } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Check, DollarSign, Loader2, ChevronLeft, ChevronRight, Users, Baby } from 'lucide-react';
+import { getPackages } from '../../services/packageService';
 
 /**
- * Pricing Component
- * Displays pricing information and booking options
+ * Pricing Component - Dynamic Package Display
+ * Displays packages from Supabase with flashcard-style image carousel
  */
 const Pricing = () => {
+  const [packages, setPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [activeImageIndices, setActiveImageIndices] = useState({});
 
-  const bookingTypes = [
-    {
-      name: 'Day Visit',
-      description: 'Perfect for a day trip with family or friends',
-      features: [
-        'Access to all facilities',
-        'Picnic areas',
-        'Nature trails',
-        'Stream activities',
-        'Photography spots',
-      ],
-    },
-    {
-      name: 'Weekend Camping',
-      description: 'Overnight camping experience (2-3 days)',
-      features: [
-        'Everything in Day Visit',
-        'Camping sites',
-        'Bonfire areas',
-        'Extended trail access',
-        'Night sky viewing',
-      ],
-    },
-    {
-      name: 'Corporate Event',
-      description: 'Team building and corporate retreats',
-      features: [
-        'Private group areas',
-        'Event coordination',
-        'Custom activities',
-        'Flexible scheduling',
-        'Group amenities',
-      ],
-    },
-  ];
+  useEffect(() => {
+    loadPackages();
+  }, []);
+
+  const loadPackages = async () => {
+    setLoading(true);
+    try {
+      const data = await getPackages(false); // Only get active packages
+      setPackages(data);
+
+      // Initialize active image index for each package
+      const initialIndices = {};
+      data.forEach((pkg) => {
+        initialIndices[pkg.id] = 0;
+      });
+      setActiveImageIndices(initialIndices);
+    } catch (error) {
+      console.error('Error loading packages:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePrevImage = (packageId, totalImages) => {
+    setActiveImageIndices((prev) => ({
+      ...prev,
+      [packageId]: prev[packageId] === 0 ? totalImages - 1 : prev[packageId] - 1
+    }));
+  };
+
+  const handleNextImage = (packageId, totalImages) => {
+    setActiveImageIndices((prev) => ({
+      ...prev,
+      [packageId]: (prev[packageId] + 1) % totalImages
+    }));
+  };
+
+  const handleDotClick = (packageId, index) => {
+    setActiveImageIndices((prev) => ({
+      ...prev,
+      [packageId]: index
+    }));
+  };
+
+  if (loading) {
+    return (
+      <section id="pricing" className="section bg-white">
+        <div className="container-custom">
+          <div className="flex justify-center items-center py-20">
+            <Loader2 className="w-12 h-12 text-green-600 animate-spin" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="pricing" className="section bg-white">
@@ -48,123 +73,149 @@ const Pricing = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Simple & <span className="gradient-text">Affordable Pricing</span>
+            Our <span className="gradient-text">Packages</span>
           </h2>
           <p className="text-lg text-gray-600">
-            Transparent pricing with no hidden fees. Book your perfect nature getaway today!
+            Choose the perfect experience for your visit to CK Forest Gardens. Transparent pricing with no hidden fees!
           </p>
         </div>
 
-        {/* Pricing Card - Main */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <div className="bg-gradient-to-br from-primary-500 to-primary-700 rounded-3xl p-8 md:p-12 text-white shadow-2xl">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-6 py-2 mb-4">
-                <DollarSign className="w-5 h-5" />
-                <span className="font-semibold">Single Rate Pricing</span>
-              </div>
-              <div className="text-5xl md:text-6xl font-bold mb-2">
-                GYD 5,000
-                <span className="text-2xl font-normal text-primary-100"> /person/day</span>
-              </div>
-              <p className="text-xl text-primary-100">For adults (13 years and above)</p>
-            </div>
+        {/* Packages Grid */}
+        {packages.length > 0 ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-16">
+            {packages.map((pkg) => {
+              const hasImages = pkg.images && pkg.images.length > 0;
+              const currentImageIndex = activeImageIndices[pkg.id] || 0;
 
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
-              {/* Adults */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-accent-500 rounded-xl flex items-center justify-center">
-                    <Users className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold">Adults</h3>
-                    <p className="text-sm text-primary-100">Ages 13+</p>
-                  </div>
-                </div>
-                <div className="text-3xl font-bold mb-2">GYD 5,000</div>
-                <p className="text-primary-100">per person, per day</p>
-                <div className="mt-4 pt-4 border-t border-white/20">
-                  <p className="text-sm font-semibold mb-2">Minimum Requirement:</p>
-                  <p className="text-primary-100 text-sm">10 adults per booking</p>
-                </div>
-              </div>
+              return (
+                <div
+                  key={pkg.id}
+                  className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-gray-100 hover:shadow-2xl transition-shadow"
+                >
+                  {/* Image Carousel */}
+                  {hasImages && (
+                    <div className="relative h-64 bg-gray-100">
+                      {/* Main Image */}
+                      <img
+                        src={pkg.images[currentImageIndex].url}
+                        alt={pkg.images[currentImageIndex].alt || pkg.title}
+                        className="w-full h-full object-cover"
+                      />
 
-              {/* Children */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-accent-500 rounded-xl flex items-center justify-center">
-                    <Baby className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold">Children</h3>
-                    <p className="text-sm text-primary-100">Under 12 years</p>
-                  </div>
-                </div>
-                <div className="text-3xl font-bold mb-2 text-accent-400">FREE!</div>
-                <p className="text-primary-100">No charge for kids</p>
-                <div className="mt-4 pt-4 border-t border-white/20">
-                  <p className="text-sm font-semibold mb-2">Family Friendly:</p>
-                  <p className="text-primary-100 text-sm">Bring the whole family!</p>
-                </div>
-              </div>
-            </div>
+                      {/* Image Navigation - Only show if multiple images */}
+                      {pkg.images.length > 1 && (
+                        <>
+                          {/* Previous Button */}
+                          <button
+                            onClick={() => handlePrevImage(pkg.id, pkg.images.length)}
+                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                            aria-label="Previous image"
+                          >
+                            <ChevronLeft className="w-5 h-5" />
+                          </button>
 
-            {/* Example Calculation */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <h4 className="font-semibold mb-3 flex items-center gap-2">
-                <Calendar className="w-5 h-5" />
-                Example Calculation:
-              </h4>
-              <div className="space-y-2 text-sm text-primary-100">
-                <div className="flex justify-between">
-                  <span>15 adults × GYD 5,000 × 2 days</span>
-                  <span className="font-semibold text-white">GYD 150,000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>5 children × FREE × 2 days</span>
-                  <span className="font-semibold text-accent-400">GYD 0</span>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-white/20 text-base">
-                  <span className="font-bold text-white">Total:</span>
-                  <span className="font-bold text-accent-400">GYD 150,000</span>
-                </div>
-              </div>
-            </div>
+                          {/* Next Button */}
+                          <button
+                            onClick={() => handleNextImage(pkg.id, pkg.images.length)}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                            aria-label="Next image"
+                          >
+                            <ChevronRight className="w-5 h-5" />
+                          </button>
 
-            <a
-              href="https://thestormkingg.github.io/ck-forest-gardens-booking-app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-accent w-full mt-8 py-3 text-base inline-block text-center"
-            >
-              Book Your Visit Now
-            </a>
+                          {/* Dot Indicators */}
+                          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2">
+                            {pkg.images.map((_, index) => (
+                              <button
+                                key={index}
+                                onClick={() => handleDotClick(pkg.id, index)}
+                                className={`w-2 h-2 rounded-full transition-all ${
+                                  index === currentImageIndex
+                                    ? 'bg-white w-4'
+                                    : 'bg-white/50 hover:bg-white/75'
+                                }`}
+                                aria-label={`Go to image ${index + 1}`}
+                              />
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Package Content */}
+                  <div className="p-6 space-y-4">
+                    {/* Title */}
+                    <h3 className="text-2xl font-bold text-gray-900">{pkg.title}</h3>
+
+                    {/* Description */}
+                    <p className="text-gray-600 text-sm leading-relaxed">{pkg.description}</p>
+
+                    {/* Price */}
+                    <div className="bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl p-4 text-white">
+                      <div className="flex items-center gap-2 mb-2">
+                        <DollarSign className="w-5 h-5" />
+                        <span className="font-semibold text-sm">Price</span>
+                      </div>
+                      <div className="text-3xl font-bold">
+                        GYD {parseFloat(pkg.price).toLocaleString()}
+                      </div>
+                      <div className="text-primary-100 text-sm mt-1">{pkg.price_unit}</div>
+
+                      {/* Pricing Details */}
+                      <div className="mt-3 pt-3 border-t border-white/20 space-y-1 text-sm">
+                        <div className="flex items-center gap-2">
+                          <Users className="w-4 h-4" />
+                          <span>Minimum: {pkg.min_adults} adults</span>
+                        </div>
+                        {pkg.children_free && (
+                          <div className="flex items-center gap-2 text-accent-400">
+                            <Baby className="w-4 h-4" />
+                            <span className="font-semibold">Children under 12 FREE!</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Highlights */}
+                    {pkg.highlights && pkg.highlights.length > 0 && (
+                      <div className="space-y-2">
+                        <h4 className="font-semibold text-gray-900">What's Included:</h4>
+                        <ul className="space-y-2">
+                          {pkg.highlights.map((highlight, index) => (
+                            <li key={index} className="flex items-start gap-2">
+                              <Check className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
+                              <span className="text-sm text-gray-700">{highlight}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Book Now Button */}
+                    <a
+                      href="https://thestormkingg.github.io/ck-forest-gardens-booking-app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-primary w-full mt-4 py-3 text-center inline-block"
+                    >
+                      Book This Package
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </div>
-
-        {/* Booking Types */}
-        <div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">
-            Choose Your Experience
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {bookingTypes.map((type, index) => (
-              <div key={index} className="card p-6">
-                <h4 className="text-xl font-bold text-gray-900 mb-2">{type.name}</h4>
-                <p className="text-gray-600 mb-6">{type.description}</p>
-                <ul className="space-y-3">
-                  {type.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+        ) : (
+          /* Empty State */
+          <div className="text-center py-20">
+            <DollarSign className="w-16 h-16 mx-auto text-gray-300 mb-4" />
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Packages Available</h3>
+            <p className="text-gray-600">
+              We're currently updating our packages. Please check back soon!
+            </p>
           </div>
-        </div>
+        )}
 
         {/* Welcome Sign Feature */}
         <div className="mt-16 grid md:grid-cols-2 gap-8 items-center">
