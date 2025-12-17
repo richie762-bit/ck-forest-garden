@@ -165,17 +165,12 @@ const Pricing = () => {
                       <div className="space-y-1.5">
                         <h4 className="text-sm font-semibold text-gray-900">Includes:</h4>
                         <ul className="space-y-1">
-                          {pkg.highlights.slice(0, 3).map((highlight, index) => (
+                          {pkg.highlights.map((highlight, index) => (
                             <li key={index} className="flex items-start gap-1.5">
                               <Check className="w-4 h-4 text-primary-600 flex-shrink-0 mt-0.5" />
                               <span className="text-xs text-gray-700 leading-tight">{highlight}</span>
                             </li>
                           ))}
-                          {pkg.highlights.length > 3 && (
-                            <li className="text-xs text-gray-500 pl-5">
-                              +{pkg.highlights.length - 3} more
-                            </li>
-                          )}
                         </ul>
                       </div>
                     )}
