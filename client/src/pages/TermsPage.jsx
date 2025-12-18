@@ -96,22 +96,14 @@ const TermsPage = () => {
                 <p className="mb-4">
                   If you have any questions about our terms, policies, or waiver, please contact us before your visit.
                 </p>
-                <div className="flex flex-wrap gap-4">
-                  <a
-                    href="https://wa.me/592712CKFG"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-white text-primary-600 px-6 py-2 rounded-lg hover:bg-primary-50 transition-colors font-semibold"
-                  >
-                    WhatsApp Us
-                  </a>
-                  <a
-                    href="/#contact"
-                    className="bg-primary-700 text-white px-6 py-2 rounded-lg hover:bg-primary-800 transition-colors font-semibold"
-                  >
-                    Contact Form
-                  </a>
-                </div>
+                <a
+                  href="https://wa.me/5927122534"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-white text-primary-600 px-6 py-2 rounded-lg hover:bg-primary-50 transition-colors font-semibold"
+                >
+                  WhatsApp Us
+                </a>
               </div>
 
               {/* PDF Viewer */}
