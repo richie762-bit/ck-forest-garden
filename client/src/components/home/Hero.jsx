@@ -1,20 +1,49 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { Calendar, Users, MapPin } from 'lucide-react';
 
 /**
  * Hero Component
- * Main hero section with call-to-action
+ * Main hero section with background slideshow and call-to-action
  */
 const Hero = () => {
+  const images = [
+    '/assets/images/gallery/Overhead.jpg',
+    '/assets/images/gallery/Hiking.jpg',
+    '/assets/images/gallery/PicnicArea.jpg',
+    '/assets/images/gallery/StreamActivities.jpg',
+    '/assets/images/gallery/Relaxation.jpg',
+    '/assets/images/gallery/campfire.jpg',
+  ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 6000); // Change image every 6 seconds
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
     <section id="home" className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
-      {/* Background Image */}
+      {/* Background Slideshow */}
       <div className="absolute inset-0">
-        <img
-          src="/assets/images/gallery/Overhead.jpg"
-          alt=""
-          className="w-full h-full object-cover"
-        />
+        {images.map((image, index) => (
+          <div
+            key={image}
+            className={`absolute inset-0 transition-opacity duration-2000 ease-in-out ${
+              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <img
+              src={image}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ))}
         <div className="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/85 to-primary-900/90"></div>
       </div>
 

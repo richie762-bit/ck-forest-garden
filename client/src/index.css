@@ -132,6 +132,11 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* Hero Slideshow Transitions */
+  .transition-opacity.duration-2000 {
+    transition-duration: 2000ms;
+  }
+
   /* React DatePicker Custom Styles */
   .react-datepicker-wrapper {
     width: 100%;
