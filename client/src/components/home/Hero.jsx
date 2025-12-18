@@ -35,15 +35,13 @@ const Hero = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <a
-                href="https://thestormkingg.github.io/ck-forest-gardens-booking-app/"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/pricing"
                 className="btn btn-accent px-8 py-4 text-lg"
               >
                 <Calendar className="w-5 h-5 mr-2 inline" />
                 Book Your Visit
-              </a>
+              </Link>
               <Link
                 to="/about"
                 className="btn btn-secondary px-8 py-4 text-lg bg-white/10 border-white/30 hover:bg-white/20 text-white"

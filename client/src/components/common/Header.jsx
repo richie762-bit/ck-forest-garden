@@ -78,7 +78,7 @@ const Header = () => {
                 }`
               }
             >
-              Pricing
+              Packages
             </NavLink>
             <NavLink
               to="/gallery"
@@ -185,7 +185,7 @@ const Header = () => {
                   }`
                 }
               >
-                Pricing
+                Packages
               </NavLink>
               <NavLink
                 to="/gallery"
