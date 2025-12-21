@@ -24,7 +24,7 @@ const Timeline = () => {
           caption: 'Early transformation - the only water hole in 2007'
         }
       ],
-      color: 'from-green-500 to-emerald-600'
+      color: 'from-green-600 to-emerald-700'
     },
     {
       year: '2008',
@@ -35,9 +35,13 @@ const Timeline = () => {
         {
           src: '/assets/images/timeline/2008-development.jpg',
           caption: 'Early construction and development phase'
+        },
+        {
+          src: '/assets/images/timeline/dining-kitchen-area.jpg',
+          caption: 'Site of present dining and kitchen area'
         }
       ],
-      color: 'from-blue-500 to-cyan-600'
+      color: 'from-green-500 to-emerald-600'
     },
     {
       year: '2012',
@@ -54,7 +58,7 @@ const Timeline = () => {
           caption: 'First boat arrives at CK - July 2012'
         }
       ],
-      color: 'from-purple-500 to-pink-600'
+      color: 'from-teal-600 to-green-700'
     },
     {
       year: '2015',
@@ -63,11 +67,19 @@ const Timeline = () => {
       description: 'East side development with first major dig to conservancy, transforming the landscape and water management systems.',
       images: [
         {
+          src: '/assets/images/timeline/2015-east-side.jpg',
+          caption: 'East side development - October 2015'
+        },
+        {
           src: '/assets/images/timeline/2015-first-dig.jpg',
           caption: 'Timelapse after first dig to conservancy'
+        },
+        {
+          src: '/assets/images/timeline/obstacle-course.jpg',
+          caption: 'Old obstacle course area before transformation'
         }
       ],
-      color: 'from-orange-500 to-red-600'
+      color: 'from-emerald-600 to-green-700'
     },
     {
       year: '2016',
@@ -80,7 +92,7 @@ const Timeline = () => {
           caption: 'Digging eastern perimeter dam'
         }
       ],
-      color: 'from-teal-500 to-green-600'
+      color: 'from-green-700 to-teal-700'
     },
     {
       year: '2019',
@@ -93,7 +105,7 @@ const Timeline = () => {
           caption: 'Container installation on east side'
         }
       ],
-      color: 'from-indigo-500 to-purple-600'
+      color: 'from-teal-700 to-emerald-700'
     },
     {
       year: 'Today',
