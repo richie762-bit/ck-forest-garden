@@ -127,15 +127,15 @@ const Timeline = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+    <section className="pt-12 pb-16 bg-gradient-to-b from-white via-gray-50 to-white">
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Our <span className="gradient-text">Journey</span>
+            The <span className="gradient-text">Transformation</span>
           </h2>
           <p className="text-lg text-gray-600">
-            From raw land to nature's paradise - discover how CK Forest Gardens evolved over the years
+            Follow our journey through the years
           </p>
         </div>
 

@@ -77,7 +77,7 @@ const About = () => {
         </div>
 
         {/* Values Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           <div className="card p-8 text-center">
             <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Heart className="w-8 h-8 text-white" />
@@ -110,6 +110,25 @@ const About = () => {
               natural environment around us.
             </p>
           </div>
+        </div>
+
+        {/* Transition to Timeline */}
+        <div className="text-center max-w-3xl mx-auto">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t-2 border-gray-200"></div>
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-white px-6 py-2 text-gray-500 text-sm font-medium">
+                Our Story
+              </span>
+            </div>
+          </div>
+          <p className="text-gray-600 mt-6 leading-relaxed">
+            What you see today didn't happen overnight. CK Forest Gardens has been transformed
+            through years of dedication, hard work, and a vision to create a nature paradise.
+            Discover how we evolved from raw land to the thriving eco-tourism destination we are today.
+          </p>
         </div>
       </div>
     </section>
