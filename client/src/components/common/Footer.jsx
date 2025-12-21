@@ -64,7 +64,7 @@ const Footer = () => {
                   to="/pricing"
                   className="text-sm text-gray-400 hover:text-green-400 transition-colors"
                 >
-                  Pricing
+                  Packages
                 </Link>
               </li>
               <li>
@@ -73,6 +73,14 @@ const Footer = () => {
                   className="text-sm text-gray-400 hover:text-green-400 transition-colors"
                 >
                   Gallery
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/terms"
+                  className="text-sm text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Terms & Policies
                 </Link>
               </li>
               <li>
