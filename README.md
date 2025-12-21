@@ -1,315 +1,161 @@
-# CK Forest Garden Booking System
+# CK Forest Gardens 🌳
 
-A complete, production-ready booking system for CK Forest Garden built with React, Node.js, Express, PostgreSQL, and Prisma.
+A modern booking and package management system for CK Forest Gardens, Guyana's premier eco-tourism destination.
 
 ## Features
 
-### User Features
-- 🏠 Beautiful homepage with Hero, About, Activities, Pricing, and Gallery sections
-- 📅 Online booking system with real-time price calculation
-- 💰 Simple pricing: GYD 5,000 per adult per day (Children under 12 FREE)
-- 📧 Email confirmations for customers
-- 📄 Payment receipt upload (JPG/PNG/PDF, max 5MB)
-- 🧾 Booking reference generation and receipt download
-
-### Admin Features
-- 🔐 Secure admin login with JWT authentication
-- 📊 Dashboard with statistics (bookings, revenue, status breakdown)
-- 📋 Bookings management with search, filters, and pagination
-- 👁️ View detailed booking information
-- ✅ Update booking status (pending → confirmed → completed)
-- ❌ Cancel bookings with reason tracking
-- 📥 View uploaded payment receipts
+- 🎯 **Dynamic Package Management**: Create, edit, and manage packages through admin dashboard
+- 📸 **Image Galleries**: Upload up to 5 images per package with carousel display
+- 🔐 **Secure Admin Panel**: Supabase authentication with row-level security
+- 📱 **Responsive Design**: Mobile-first design that works on all devices
+- ⚡ **Fast Performance**: Built with Vite and optimized for speed
+- 🎨 **Modern UI**: Clean interface with Tailwind CSS
 
 ## Tech Stack
 
-### Frontend
-- React 18
-- Vite
-- Tailwind CSS
-- React Router v6
-- React Hook Form
-- Zod (validation)
-- Axios
-- Lucide Icons
-- React Hot Toast
+- **Frontend**: React 18, Vite, React Router v6
+- **Styling**: Tailwind CSS, Lucide Icons
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage
+- **Deployment**: Vercel
+- **Forms**: React Hook Form + Zod validation
 
-### Backend
-- Node.js
-- Express
-- PostgreSQL
-- Prisma ORM
-- JWT Authentication
-- Bcrypt (password hashing)
-- Multer (file uploads)
-- Nodemailer (email)
-- Zod (validation)
-
-## Installation & Setup
+## Getting Started
 
 ### Prerequisites
-- Node.js 18+
-- PostgreSQL 14+
-- npm or yarn
 
-### 1. Clone the Repository
-```bash
-cd ck-forest-garden
-```
+- Node.js 18+ and npm
+- Supabase account
+- Vercel account (for deployment)
 
-### 2. Backend Setup
+### Installation
 
-```bash
-# Navigate to server directory
-cd server
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/ck-forest-garden.git
+   cd ck-forest-garden
+   ```
 
-# Install dependencies
-npm install
+2. **Install dependencies**
+   ```bash
+   cd client
+   npm install
+   ```
 
-# Copy environment file
-cp .env.example .env
+3. **Set up environment variables**
 
-# Update .env with your configuration:
-# - DATABASE_URL (PostgreSQL connection string)
-# - JWT_SECRET (random secure string)
-# - Email credentials (Gmail SMTP)
-# - Admin credentials
+   Create `client/.env`:
+   ```env
+   VITE_SUPABASE_URL=your_supabase_project_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-# Generate Prisma Client
-npm run prisma:generate
+4. **Set up Supabase**
 
-# Run database migrations
-npm run prisma:migrate
+   Run the SQL schema in your Supabase project:
+   ```bash
+   # Find the schema in: supabase-packages-schema.sql
+   ```
 
-# Seed database (creates admin user and sample data)
-npm run prisma:seed
+   Create the storage bucket:
+   - Go to Supabase Dashboard → Storage
+   - Create bucket: `package-images`
+   - Make it public
 
-# Start development server
-npm run dev
-```
+5. **Run development server**
+   ```bash
+   npm run dev
+   ```
 
-Server will run on http://localhost:5000
+   Visit http://localhost:5173
 
-### 3. Frontend Setup
+### Deployment
 
-```bash
-# Navigate to client directory (from root)
-cd client
+#### Deploy to Vercel
 
-# Install dependencies
-npm install
+1. **Connect repository to Vercel**
+   - Import your GitHub repository
+   - Framework Preset: `Vite`
+   - Root Directory: `client`
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
 
-# Copy environment file
-cp .env.example .env
+2. **Set environment variables in Vercel**
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
 
-# Update .env if needed (default API_URL is http://localhost:5000/api)
-
-# Start development server
-npm run dev
-```
-
-Frontend will run on http://localhost:5173
-
-## Default Admin Credentials
-
-After seeding the database:
-- **Email:** admin@ckforestgarden.com
-- **Password:** Admin123!
-
-**⚠️ IMPORTANT:** Change these credentials in production!
+3. **Deploy!**
+   - Vercel will auto-deploy on every push to `main`
 
 ## Project Structure
 
 ```
 ck-forest-garden/
-├── client/                 # Frontend React app
+├── client/                  # Frontend application
 │   ├── src/
-│   │   ├── components/
-│   │   │   ├── common/    # Reusable components
-│   │   │   ├── home/      # Home page sections
-│   │   │   ├── booking/   # Booking flow components
-│   │   │   └── admin/     # Admin components
+│   │   ├── components/     # React components
+│   │   │   ├── admin/     # Admin dashboard components
+│   │   │   ├── common/    # Shared components (Header, Footer)
+│   │   │   └── home/      # Public-facing components
 │   │   ├── context/       # React Context (Auth)
 │   │   ├── pages/         # Page components
-│   │   ├── services/      # API service (Axios)
-│   │   ├── utils/         # Helper functions
-│   │   ├── App.jsx        # Main app component
-│   │   └── main.jsx       # Entry point
-│   └── package.json
-│
-└── server/                # Backend Node.js app
-    ├── src/
-    │   ├── config/        # Database & email config
-    │   ├── controllers/   # Request handlers
-    │   ├── middleware/    # Auth, upload, validation
-    │   ├── routes/        # API routes
-    │   ├── services/      # Email service
-    │   ├── utils/         # Helper functions
-    │   ├── app.js         # Express app setup
-    │   └── server.js      # Server entry point
-    ├── prisma/
-    │   ├── schema.prisma  # Database schema
-    │   └── seed.js        # Database seeding
-    └── package.json
+│   │   ├── services/      # API services (Supabase)
+│   │   └── utils/         # Helper functions
+│   ├── public/            # Static assets
+│   └── vercel.json        # Vercel configuration
+├── server/                # DEPRECATED - Legacy backend (not used)
+├── supabase-packages-schema.sql  # Database schema
+└── SECURITY.md           # Security guidelines
 ```
 
-## API Endpoints
+## Admin Access
 
-### Public Routes
-- `POST /api/bookings` - Create new booking
-- `GET /api/bookings/:reference` - Get booking by reference
-- `POST /api/bookings/:id/upload` - Upload payment receipt
+### Creating Admin Users
 
-### Admin Routes (Protected)
-- `POST /api/admin/login` - Admin login
-- `GET /api/admin/me` - Get current admin user
-- `GET /api/admin/dashboard` - Get dashboard statistics
-- `GET /api/admin/bookings` - Get all bookings (with filters)
-- `GET /api/admin/bookings/:id` - Get single booking
-- `PATCH /api/admin/bookings/:id` - Update booking status
-- `DELETE /api/admin/bookings/:id` - Cancel booking
+1. Go to Supabase Dashboard → Authentication → Users
+2. Click "Add user" → Create new user
+3. Use this email/password to login at `/admin/login`
 
-## Business Logic
+### Admin Features
 
-### Pricing
-- **Rate:** GYD 5,000 per adult per day
-- **Children:** Under 12 years - **FREE**
-- **Minimum:** 10 adults required per booking
-- **Formula:** `totalAmount = numberOfAdults × 5,000 × numberOfDays`
+- **Package Management**: Create, edit, delete, activate/deactivate packages
+- **Image Upload**: Upload and manage package images
+- **Preview**: See how packages appear to visitors
 
-### Booking Reference Format
-`CK-{timestamp}-{random}`
+## Security
 
-Example: `CK-1699123456789-A3B4C5`
-
-## Email Configuration
-
-The system uses Nodemailer with Gmail SMTP. To set up:
-
-1. Create a Gmail account or use existing
-2. Enable 2-factor authentication
-3. Generate an App Password:
-   - Go to Google Account → Security
-   - Select "2-Step Verification"
-   - Scroll to "App passwords"
-   - Generate password for "Mail"
-4. Use the app password in `.env` file
-
-## Database Schema
-
-### Users Table
-- Admin authentication
-- Hashed passwords with bcrypt
-
-### Bookings Table
-- Customer information
-- Booking details (dates, type, guests)
-- Pricing calculation
-- Payment receipt path
-- Status tracking
-- Cancellation reason
-
-## Development Scripts
-
-### Backend
-```bash
-npm run dev          # Start development server
-npm start            # Start production server
-npm run prisma:generate  # Generate Prisma Client
-npm run prisma:migrate   # Run migrations
-npm run prisma:seed      # Seed database
-npm run prisma:studio    # Open Prisma Studio
-```
-
-### Frontend
-```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run preview  # Preview production build
-```
-
-## Production Deployment
-
-### Backend
-1. Set `NODE_ENV=production`
-2. Use strong `JWT_SECRET`
-3. Update `DATABASE_URL` with production database
-4. Configure email credentials
-5. Change admin password
-6. Set `CLIENT_URL` to production frontend URL
-7. Run migrations: `npm run prisma:migrate`
-8. Start server: `npm start`
-
-### Frontend
-1. Update `VITE_API_URL` to production API URL
-2. Build: `npm run build`
-3. Deploy `dist/` folder to hosting service (Vercel, Netlify, etc.)
+- Environment variables are never committed to Git
+- Supabase Row Level Security (RLS) protects data
+- Admin routes require authentication
+- File upload validation and size limits
+- See [SECURITY.md](SECURITY.md) for full details
 
 ## Environment Variables
 
-### Server (.env)
-```
-PORT=5000
-DATABASE_URL=postgresql://user:password@localhost:5432/ck_forest_garden
-JWT_SECRET=your-secret-key
-JWT_EXPIRE=7d
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASSWORD=your-app-password
-ADMIN_EMAIL=admin@ckforestgarden.com
-ADMIN_PASSWORD=Admin123!
-CLIENT_URL=http://localhost:5173
-```
+See `client/.env.example` for required variables.
 
-### Client (.env)
-```
-VITE_API_URL=http://localhost:5000/api
-```
+**Never commit `.env` files to version control!**
 
-## Testing the Application
+## Contributing
 
-1. **Create a Booking:**
-   - Visit http://localhost:5173
-   - Click "Book Your Visit"
-   - Fill in the form (min 10 adults)
-   - Submit and receive booking confirmation
+This is a private project for CK Forest Gardens. For authorized contributors:
 
-2. **Upload Payment Receipt:**
-   - After booking, click "Upload Payment Receipt"
-   - Upload JPG/PNG/PDF (max 5MB)
-   - Receive confirmation email
-
-3. **Admin Dashboard:**
-   - Visit http://localhost:5173/admin/login
-   - Login with admin credentials
-   - View dashboard statistics
-   - Manage bookings (search, filter, update status)
-
-## Features Checklist
-
-✅ User can create booking with validation
-✅ Real-time price calculation (adults × 5,000 × days)
-✅ Children under 12 shown as FREE
-✅ Minimum 10 adults enforced
-✅ File upload with type/size validation
-✅ Email notifications sent
-✅ Admin login with JWT
-✅ Admin dashboard with statistics
-✅ Bookings list with search and filters
-✅ Pagination (10 per page)
-✅ Admin can update booking status
-✅ Fully responsive design
-✅ No console errors
+1. Create a feature branch
+2. Make your changes
+3. Test thoroughly
+4. Submit a pull request
 
 ## Support
 
-For issues or questions, contact: info@ckforestgarden.com
+For support or inquiries:
+- WhatsApp: +592 712-2534
+- Email: info@ckforestgarden.com
 
 ## License
 
-ISC
+© 2025 CK Forest Gardens. All rights reserved.
 
 ---
 
-**Built with ❤️ for CK Forest Garden**
+**Built with ❤️ for CK Forest Gardens**

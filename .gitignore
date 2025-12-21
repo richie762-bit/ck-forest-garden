@@ -10,12 +10,17 @@ coverage/
 dist/
 build/
 
-# Environment variables
+# Environment variables - NEVER commit these
 .env
+.env.*
 .env.local
 .env.development
 .env.test
 .env.production
+**/.env
+**/.env.*
+*.env
+!.env.example
 
 # Logs
 logs/
@@ -47,3 +52,20 @@ uploads/
 # OS
 Thumbs.db
 .DS_Store
+
+# Security - Sensitive files
+*.pem
+*.key
+*.cert
+*.crt
+**/credentials.json
+**/secrets.*
+.secret
+.secrets
+
+# Vercel
+.vercel
+.vercel.json
+
+# Local development
+.local
