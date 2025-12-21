@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import ImageSlideshow from '../gallery/ImageSlideshow';
 
 /**
  * Gallery Component
@@ -62,6 +63,9 @@ const Gallery = () => {
             </div>
           ))}
         </div>
+
+        {/* Image Slideshow */}
+        <ImageSlideshow />
 
         {/* Testimonial Section */}
         <div className="mt-16">

@@ -13,15 +13,15 @@ const Timeline = () => {
       year: '2007',
       month: 'September',
       title: 'The Beginning',
-      description: 'CK Forest Gardens started as raw, undeveloped land with natural beauty waiting to be discovered.',
+      description: 'After an accidental burning of the poolside area, nature began its first transformation - creating what would become the very first water hole at CK Forest Gardens.',
       images: [
         {
           src: '/assets/images/timeline/2007-poolsite-before.jpg',
-          caption: 'Poolsite before development'
+          caption: 'Poolside area during accidental burning'
         },
         {
           src: '/assets/images/timeline/2007-poolsite-after.jpg',
-          caption: 'Early transformation - the only water hole in 2007'
+          caption: 'After the burn - became the first water hole in 2007'
         }
       ],
       color: 'from-green-600 to-emerald-700'
@@ -73,10 +73,6 @@ const Timeline = () => {
         {
           src: '/assets/images/timeline/2015-first-dig.jpg',
           caption: 'Timelapse after first dig to conservancy'
-        },
-        {
-          src: '/assets/images/timeline/obstacle-course.jpg',
-          caption: 'Old obstacle course area before transformation'
         }
       ],
       color: 'from-emerald-600 to-green-700'
@@ -98,11 +94,15 @@ const Timeline = () => {
       year: '2019',
       month: '',
       title: 'Facility Enhancement',
-      description: 'Container facility added to the east side, providing essential infrastructure for visitors and operations.',
+      description: 'Container facility added to the east side, providing essential infrastructure for visitors and operations. The old obstacle course area was transformed during this period.',
       images: [
         {
           src: '/assets/images/timeline/2019-container.jpg',
           caption: 'Container installation on east side'
+        },
+        {
+          src: '/assets/images/timeline/obstacle-course.jpg',
+          caption: 'Old obstacle course area before transformation'
         }
       ],
       color: 'from-teal-700 to-emerald-700'
