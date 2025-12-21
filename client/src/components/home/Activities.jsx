@@ -94,7 +94,7 @@ const Activities = () => {
               to="/pricing#pricing"
               className="btn btn-accent px-8 py-4 text-lg inline-block"
             >
-              View Pricing & Book Now
+              View Packages & Book Now
             </Link>
           </div>
         </div>
