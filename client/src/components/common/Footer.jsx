@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 /**
  * Footer Component
  * Site footer with contact info and social links
+ * Updated: 2025-01-20
  */
 const Footer = () => {
   const currentYear = new Date().getFullYear();
