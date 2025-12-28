@@ -1,8 +1,8 @@
-import { TreePine, Heart, Shield, Sprout } from 'lucide-react';
+import { MapPin, Wifi, Home, Car } from 'lucide-react';
 
 /**
  * About Component
- * About section with mission and values
+ * About section with location and experience information
  */
 const About = () => {
   return (
@@ -14,8 +14,7 @@ const About = () => {
             About <span className="gradient-text">CK Forest Gardens</span>
           </h2>
           <p className="text-lg text-gray-600">
-            A sanctuary where nature and adventure come together to create unforgettable
-            experiences for visitors of all ages.
+            Your exclusive off-grid retreat in the heart of Guyana's natural beauty
           </p>
         </div>
 
@@ -34,80 +33,69 @@ const About = () => {
             <div className="absolute -top-6 -left-6 w-48 h-48 bg-primary-500/20 rounded-2xl -z-10"></div>
           </div>
 
-          {/* Right - Description */}
+          {/* Right - Location & Description */}
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Your Gateway to Nature's Beauty
+              Your Exclusive Retreat
             </h3>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              CK Forest Gardens is more than just a destination—it's an experience. Located in
-              the heart of Guyana, our 50+ acre paradise offers a perfect blend of natural
-              beauty, recreational activities, and peaceful relaxation.
+              Located just off the new Silica City development site along the Linden-Soesdyke Highway,
+              we're situated near the road to Laluni—a historic agricultural village that once grew
+              tobacco for the Demerara Tobacco Company. Our retreat is approximately 2.5 miles down
+              an unpaved road of sand and red loam.
             </p>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              Whether you're planning a family outing, a corporate retreat, or an adventurous
-              camping trip with friends, we provide a safe, clean, and welcoming environment
-              for all our guests.
+              Think of our space as a blank canvas where you and your group can create your own memories.
+              You'll have the entire place exclusively to yourselves. Whether you want to play loud music
+              or simply enjoy the serenity of nature, it's entirely up to you—this is your space to make
+              it what you want.
             </p>
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                  <TreePine className="w-5 h-5 text-primary-600" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Natural Environment</h4>
-                  <p className="text-sm text-gray-600">
-                    Immerse yourself in pristine nature with diverse flora and fauna
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                  <Shield className="w-5 h-5 text-primary-600" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Safe & Secure</h4>
-                  <p className="text-sm text-gray-600">
-                    Well-maintained facilities with safety as our top priority
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Values Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          <div className="card p-8 text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Heart className="w-8 h-8 text-white" />
+        {/* Experience Features */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div className="card p-6">
+            <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+              <MapPin className="w-6 h-6 text-primary-600" />
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Community Focused</h3>
-            <p className="text-gray-600">
-              We believe in creating spaces that bring people together and foster meaningful
-              connections with nature and each other.
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Getting Here</h3>
+            <p className="text-sm text-gray-600">
+              While road conditions vary seasonally, we recommend four-wheel drive vehicles.
+              The road is currently sturdy enough for cars thanks to recent rain.
             </p>
           </div>
 
-          <div className="card p-8 text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Sprout className="w-8 h-8 text-white" />
+          <div className="card p-6">
+            <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+              <Wifi className="w-6 h-6 text-primary-600" />
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Eco-Friendly</h3>
-            <p className="text-gray-600">
-              Committed to sustainable practices and environmental conservation to preserve
-              our natural beauty for future generations.
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Digital Detox</h3>
+            <p className="text-sm text-gray-600">
+              Operating completely off-grid with no electricity and only intermittent cell service.
+              Designated spots available for emergency contact if needed.
             </p>
           </div>
 
-          <div className="card p-8 text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <TreePine className="w-8 h-8 text-white" />
+          <div className="card p-6">
+            <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+              <Home className="w-6 h-6 text-primary-600" />
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Nature First</h3>
-            <p className="text-gray-600">
-              Every decision we make prioritizes the preservation and celebration of the
-              natural environment around us.
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Accommodations</h3>
+            <p className="text-sm text-gray-600">
+              Four A-frame camping pods (4 people each), plus a main dining/lounge area.
+              Bring your own gear or use our inflatable mattresses.
+            </p>
+          </div>
+
+          <div className="card p-6">
+            <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+              <Car className="w-6 h-6 text-primary-600" />
+            </div>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Bring Your Gear</h3>
+            <p className="text-sm text-gray-600">
+              We operate on a bring-your-own-gear basis, which is why we don't charge for
+              overnight stays. Make it your adventure!
             </p>
           </div>
         </div>
