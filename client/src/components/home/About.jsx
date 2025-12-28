@@ -11,10 +11,10 @@ const About = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            About <span className="gradient-text">Camp Kabouyak Forest Gardens</span>
+            Welcome to <span className="gradient-text">Camp Kabouyak</span>
           </h2>
           <p className="text-lg text-gray-600">
-            From citrus farm to eco-tourism paradise—60 acres of tropical fruit forest and adventure
+            A 60-acre fruit forest farm where nature meets adventure
           </p>
         </div>
 
@@ -22,15 +22,15 @@ const About = () => {
         <div className="max-w-4xl mx-auto mb-16">
           <div className="card p-8 bg-gradient-to-br from-primary-50 to-accent-50 border-2 border-primary-100">
             <p className="text-gray-700 leading-relaxed mb-4">
-              <span className="font-bold text-primary-600">Camp Kabouyak (CK) Forest Gardens</span> is a former citrus farm
-              transformed into an incredible 60-acre eco-tourism destination in the vicinity of Kurukururu and Laluni
-              on the Linden-Soesdyke Highway—approximately 45 minutes from the Timehri-Soesdyke Junction.
+              <span className="font-bold text-primary-600">Camp Kabouyak (CK) Forest Gardens</span> started out as a citrus farm
+              and has blossomed into something pretty special—a 60-acre fruit forest farm tucked away near Kurukururu and Laluni
+              on the Linden-Soesdyke Highway, about 45 minutes from Timehri-Soesdyke Junction.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              We've evolved from a citrus farm into a thriving fruit forest and garden, creating an ideal spot
-              that promotes both education and fun while allowing visitors to digitally detox and reconnect with nature.
-              Our diverse tropical fruit forest features <span className="font-semibold">over 30 different types of tropical fruits</span>,
-              making us stand out in Guyana's eco-tourism sector.
+              Over the years, we've transformed this land into a living fruit forest with <span className="font-semibold">over 30 different
+              types of tropical fruits</span>. It's become the perfect place to unplug from the digital world, explore nature,
+              and maybe learn a thing or two about tropical fruits along the way. We offer tours of the fruit forest and
+              welcome groups who want to experience the outdoors in their own way.
             </p>
           </div>
         </div>
@@ -53,26 +53,26 @@ const About = () => {
           {/* Right - Location & Experience */}
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Your Exclusive Retreat Experience
+              Make It Your Own
             </h3>
             <p className="text-gray-600 mb-4 leading-relaxed">
-              Located just off the new Silica City development site, we're situated near the historic
-              village of Laluni—once known for growing tobacco for the Demerara Tobacco Company.
-              Our retreat is approximately 2.5 miles down an unpaved road of sand and red loam.
+              We're tucked away just off the new Silica City development on the Linden-Soesdyke Highway, near
+              Laluni—a little village with history (it used to grow tobacco for the Demerara Tobacco Company!).
+              You'll travel about 2.5 miles down an unpaved road of sand and red loam to reach us.
             </p>
             <p className="text-gray-600 mb-4 leading-relaxed">
-              When you visit CK Forest Gardens, the entire property is exclusively yours. Think of our
-              space as a blank canvas where you and your group can create your own memories—whether that's
-              playing loud music, enjoying peaceful nature walks, or anything in between.
+              Here's the thing—when you come to CK, the whole place is yours. Bring your crew, crank up the music
+              if that's your vibe, or just soak in the peace and quiet. It's your space to make what you want of it.
+              We're here to share our fruit forest with you, not tell you how to enjoy it.
             </p>
             <div className="bg-primary-50 p-4 rounded-lg border-l-4 border-primary-500">
-              <h4 className="font-bold text-gray-900 mb-2">What We Offer:</h4>
+              <h4 className="font-bold text-gray-900 mb-2">What You Can Do Here:</h4>
               <ul className="text-sm text-gray-700 space-y-1">
-                <li>• Swimming in our man-made natural pool</li>
-                <li>• Fishing in multiple ponds throughout the property</li>
-                <li>• Volleyball, cricket, and football in spacious areas</li>
-                <li>• Guided tours of our 30+ tropical fruit forest</li>
-                <li>• Complete digital detox in a tranquil setting</li>
+                <li>• Take a dip in our man-made natural pool</li>
+                <li>• Try your luck fishing in the ponds scattered around</li>
+                <li>• Play volleyball, cricket, or football in the open spaces</li>
+                <li>• Join a guided tour through our 30+ fruit forest</li>
+                <li>• Escape the notifications and reconnect with nature</li>
               </ul>
             </div>
           </div>
@@ -86,8 +86,8 @@ const About = () => {
             </div>
             <h3 className="text-lg font-bold text-gray-900 mb-2">Getting Here</h3>
             <p className="text-sm text-gray-600">
-              While road conditions vary seasonally, we recommend four-wheel drive vehicles.
-              The road is currently sturdy enough for cars thanks to recent rain.
+              The road's a bit rough—we recommend a 4x4, but regular cars can make it when the weather's good.
+              Just follow the sand and red loam, and you'll find us!
             </p>
           </div>
 
@@ -95,10 +95,10 @@ const About = () => {
             <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
               <Wifi className="w-6 h-6 text-primary-600" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Digital Detox</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Unplug & Recharge</h3>
             <p className="text-sm text-gray-600">
-              Operating completely off-grid with no electricity and only intermittent cell service.
-              Designated spots available for emergency contact if needed.
+              We're completely off-grid—no electricity, spotty cell service. Perfect for getting away from it all.
+              Don't worry, there are spots with signal if you need to check in.
             </p>
           </div>
 
@@ -106,10 +106,10 @@ const About = () => {
             <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
               <Home className="w-6 h-6 text-primary-600" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Accommodations</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Sleep Under the Trees</h3>
             <p className="text-sm text-gray-600">
-              Four A-frame camping pods (4 people each), plus a main dining/lounge area.
-              Bring your own gear or use our inflatable mattresses.
+              We've got four A-frame pods that fit about 4 people each, plus a main area for hanging out.
+              Bring your camping gear, or borrow our inflatable mattresses.
             </p>
           </div>
 
@@ -117,10 +117,10 @@ const About = () => {
             <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
               <Car className="w-6 h-6 text-primary-600" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Bring Your Gear</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">BYOG (Bring Your Own Gear)</h3>
             <p className="text-sm text-gray-600">
-              We operate on a bring-your-own-gear basis, which is why we don't charge for
-              overnight stays. Make it your adventure!
+              Pack your own camping stuff—that's why staying overnight is free! Your adventure,
+              your way. We'll provide the fruit forest.
             </p>
           </div>
         </div>
@@ -133,14 +133,14 @@ const About = () => {
             </div>
             <div className="relative flex justify-center">
               <span className="bg-white px-6 py-2 text-gray-500 text-sm font-medium">
-                Our Story
+                How We Got Here
               </span>
             </div>
           </div>
           <p className="text-gray-600 mt-6 leading-relaxed">
-            What you see today didn't happen overnight. CK Forest Gardens has been transformed
-            through years of dedication, hard work, and a vision to create a nature paradise.
-            Discover how we evolved from raw land to the thriving eco-tourism destination we are today.
+            Rome wasn't built in a day, and neither was CK Forest Gardens. This place has been a labor of love—
+            years of clearing, planting, digging, and dreaming. What started as raw bush land has grown into
+            the fruit forest you see today. Want to know how it all happened? Let's walk through it.
           </p>
         </div>
       </div>
