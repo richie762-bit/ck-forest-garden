@@ -11,11 +11,28 @@ const About = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            About <span className="gradient-text">CK Forest Gardens</span>
+            About <span className="gradient-text">Camp Kabouyak Forest Gardens</span>
           </h2>
           <p className="text-lg text-gray-600">
-            Your exclusive off-grid retreat in the heart of Guyana's natural beauty
+            From citrus farm to eco-tourism paradise—60 acres of tropical fruit forest and adventure
           </p>
+        </div>
+
+        {/* Introduction Section */}
+        <div className="max-w-4xl mx-auto mb-16">
+          <div className="card p-8 bg-gradient-to-br from-primary-50 to-accent-50 border-2 border-primary-100">
+            <p className="text-gray-700 leading-relaxed mb-4">
+              <span className="font-bold text-primary-600">Camp Kabouyak (CK) Forest Gardens</span> is a former citrus farm
+              transformed into an incredible 60-acre eco-tourism destination in the vicinity of Kurukururu and Laluni
+              on the Linden-Soesdyke Highway—approximately 45 minutes from the Timehri-Soesdyke Junction.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              We've evolved from a citrus farm into a thriving fruit forest and garden, creating an ideal spot
+              that promotes both education and fun while allowing visitors to digitally detox and reconnect with nature.
+              Our diverse tropical fruit forest features <span className="font-semibold">over 30 different types of tropical fruits</span>,
+              making us stand out in Guyana's eco-tourism sector.
+            </p>
+          </div>
         </div>
 
         {/* Main Content */}
@@ -33,23 +50,31 @@ const About = () => {
             <div className="absolute -top-6 -left-6 w-48 h-48 bg-primary-500/20 rounded-2xl -z-10"></div>
           </div>
 
-          {/* Right - Location & Description */}
+          {/* Right - Location & Experience */}
           <div>
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Your Exclusive Retreat
+              Your Exclusive Retreat Experience
             </h3>
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              Located just off the new Silica City development site along the Linden-Soesdyke Highway,
-              we're situated near the road to Laluni—a historic agricultural village that once grew
-              tobacco for the Demerara Tobacco Company. Our retreat is approximately 2.5 miles down
-              an unpaved road of sand and red loam.
+            <p className="text-gray-600 mb-4 leading-relaxed">
+              Located just off the new Silica City development site, we're situated near the historic
+              village of Laluni—once known for growing tobacco for the Demerara Tobacco Company.
+              Our retreat is approximately 2.5 miles down an unpaved road of sand and red loam.
             </p>
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              Think of our space as a blank canvas where you and your group can create your own memories.
-              You'll have the entire place exclusively to yourselves. Whether you want to play loud music
-              or simply enjoy the serenity of nature, it's entirely up to you—this is your space to make
-              it what you want.
+            <p className="text-gray-600 mb-4 leading-relaxed">
+              When you visit CK Forest Gardens, the entire property is exclusively yours. Think of our
+              space as a blank canvas where you and your group can create your own memories—whether that's
+              playing loud music, enjoying peaceful nature walks, or anything in between.
             </p>
+            <div className="bg-primary-50 p-4 rounded-lg border-l-4 border-primary-500">
+              <h4 className="font-bold text-gray-900 mb-2">What We Offer:</h4>
+              <ul className="text-sm text-gray-700 space-y-1">
+                <li>• Swimming in our man-made natural pool</li>
+                <li>• Fishing in multiple ponds throughout the property</li>
+                <li>• Volleyball, cricket, and football in spacious areas</li>
+                <li>• Guided tours of our 30+ tropical fruit forest</li>
+                <li>• Complete digital detox in a tranquil setting</li>
+              </ul>
+            </div>
           </div>
         </div>
 
