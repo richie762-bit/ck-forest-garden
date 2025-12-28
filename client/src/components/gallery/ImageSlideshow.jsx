@@ -1,43 +1,54 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { getGalleryImages } from '../../services/supabaseService';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 /**
  * ImageSlideshow Component
- * Full-screen image slideshow with navigation
+ * Full-screen image slideshow with navigation - loads from database
  */
 const ImageSlideshow = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [autoPlay, setAutoPlay] = useState(true);
+  const [allImages, setAllImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // All images used on the site
-  const allImages = [
-    // Gallery images
-    { src: '/assets/images/gallery/Overhead.jpg', title: 'Aerial View of CK Forest Gardens' },
-    { src: '/assets/images/gallery/Heart.jpg', title: 'Nature\'s Heart' },
-    { src: '/assets/images/gallery/campfire.jpg', title: 'Cozy Campfire Evenings' },
-    { src: '/assets/images/gallery/photography.jpg', title: 'Photography Paradise' },
-    { src: '/assets/images/gallery/PicnicArea.jpg', title: 'Picnic Areas' },
-    { src: '/assets/images/gallery/StreamActivities.jpg', title: 'Stream Activities' },
-    { src: '/assets/images/gallery/groupEvents.jpg', title: 'Group Events' },
-    { src: '/assets/images/gallery/Hiking.jpg', title: 'Hiking Trails' },
-    { src: '/assets/images/gallery/Relaxation.jpg', title: 'Peaceful Relaxation' },
-    { src: '/assets/images/gallery/Advert.jpg', title: 'Nature\'s Paradise' },
-    { src: '/assets/images/gallery/Sign.jpg', title: 'Welcome to CK Forest Gardens' },
+  // Fetch images from database on component mount
+  useEffect(() => {
+    fetchAllImages();
+  }, []);
 
-    // Timeline images
-    { src: '/assets/images/timeline/2007-poolsite-before.jpg', title: '2007 - Poolside During Accidental Burning' },
-    { src: '/assets/images/timeline/2007-poolsite-after.jpg', title: '2007 - First Water Hole' },
-    { src: '/assets/images/timeline/2008-development.jpg', title: '2008 - Early Development Phase' },
-    { src: '/assets/images/timeline/dining-kitchen-area.jpg', title: '2008 - Future Dining & Kitchen Area' },
-    { src: '/assets/images/timeline/2012-overhead.jpg', title: '2012 - Aerial Planning View' },
-    { src: '/assets/images/timeline/2012-boat.jpg', title: '2012 - First Boat Arrives' },
-    { src: '/assets/images/timeline/2015-east-side.jpg', title: '2015 - East Side Development' },
-    { src: '/assets/images/timeline/2015-first-dig.jpg', title: '2015 - First Dig to Conservancy' },
-    { src: '/assets/images/timeline/2016-perimeter-dam.jpg', title: '2016 - Eastern Perimeter Dam' },
-    { src: '/assets/images/timeline/2019-container.jpg', title: '2019 - Container Installation' },
-    { src: '/assets/images/timeline/obstacle-course.jpg', title: '2019 - Old Obstacle Course Area' }
-  ];
+  const fetchAllImages = async () => {
+    try {
+      const images = await getGalleryImages();
+      // Transform database images to slideshow format
+      const formattedImages = images.map(img => ({
+        src: img.image_url,
+        title: img.caption || img.title,
+      }));
+      setAllImages(formattedImages);
+    } catch (error) {
+      console.error('Failed to load slideshow images:', error);
+      // Fallback to hardcoded images if database fetch fails
+      setAllImages([
+        // Gallery images
+        { src: '/assets/images/gallery/Overhead.jpg', title: 'Aerial View of CK Forest Gardens' },
+        { src: '/assets/images/gallery/Heart.jpg', title: 'Nature\'s Heart' },
+        { src: '/assets/images/gallery/campfire.jpg', title: 'Cozy Campfire Evenings' },
+        { src: '/assets/images/gallery/photography.jpg', title: 'Photography Paradise' },
+        { src: '/assets/images/gallery/PicnicArea.jpg', title: 'Picnic Areas' },
+        { src: '/assets/images/gallery/StreamActivities.jpg', title: 'Stream Activities' },
+        { src: '/assets/images/gallery/groupEvents.jpg', title: 'Group Events' },
+        { src: '/assets/images/gallery/Hiking.jpg', title: 'Hiking Trails' },
+        { src: '/assets/images/gallery/Relaxation.jpg', title: 'Peaceful Relaxation' },
+        { src: '/assets/images/gallery/Advert.jpg', title: 'Nature\'s Paradise' },
+        { src: '/assets/images/gallery/Sign.jpg', title: 'Welcome to CK Forest Gardens' },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Auto-advance slideshow
   useEffect(() => {
@@ -84,6 +95,18 @@ const ImageSlideshow = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
+
+  if (loading) {
+    return (
+      <div className="mt-16 text-center py-12">
+        <LoadingSpinner size="large" text="Loading slideshow..." />
+      </div>
+    );
+  }
+
+  if (allImages.length === 0) {
+    return null;
+  }
 
   return (
     <div className="mt-16">

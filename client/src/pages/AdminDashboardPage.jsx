@@ -1,7 +1,7 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Package, LogOut, Trees, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Package, LogOut, Trees, ChevronLeft, ChevronRight, Image } from 'lucide-react';
 import { getGreeting } from '../utils/helpers';
 
 /**
@@ -26,6 +26,11 @@ const AdminDashboardPage = () => {
       path: '/admin/packages',
       icon: Package,
       label: 'Packages',
+    },
+    {
+      path: '/admin/gallery',
+      icon: Image,
+      label: 'Gallery',
     },
   ];
 

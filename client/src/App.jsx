@@ -16,6 +16,7 @@ import AdminDashboardPage from './pages/AdminDashboardPage';
 
 // Admin Components
 import PackagesList from './components/admin/PackagesList';
+import GalleryManager from './components/admin/GalleryManager';
 
 /**
  * App Component
@@ -47,6 +48,7 @@ function App() {
             {/* Redirect /admin to /admin/packages */}
             <Route index element={<Navigate to="/admin/packages" replace />} />
             <Route path="packages" element={<PackagesList />} />
+            <Route path="gallery" element={<GalleryManager />} />
           </Route>
 
           {/* 404 - Redirect to Home */}

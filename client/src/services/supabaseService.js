@@ -135,8 +135,172 @@ export const getConfirmedBookings = async () => {
   }
 };
 
+/**
+ * Upload gallery image to Supabase Storage
+ * @param {File} file - The image file
+ * @returns {Promise<string>} - Public URL of uploaded file
+ */
+export const uploadGalleryImageToStorage = async (file) => {
+  try {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `gallery-${Date.now()}.${fileExt}`;
+    const filePath = `gallery/${fileName}`;
+
+    // Upload file to Supabase Storage
+    const { data, error } = await supabase.storage
+      .from('gallery-images')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false,
+      });
+
+    if (error) {
+      throw new Error(`Upload failed: ${error.message}`);
+    }
+
+    // Get public URL
+    const { data: urlData } = supabase.storage
+      .from('gallery-images')
+      .getPublicUrl(filePath);
+
+    return urlData.publicUrl;
+  } catch (error) {
+    console.error('Gallery image upload error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Create a new gallery image record
+ * @param {Object} imageData - Gallery image data (title, caption, imageUrl, category)
+ * @returns {Promise<Object>} - Created image data
+ */
+export const createGalleryImage = async (imageData) => {
+  try {
+    const { data, error } = await supabase
+      .from('gallery_images')
+      .insert([{
+        title: imageData.title,
+        caption: imageData.caption,
+        image_url: imageData.imageUrl,
+        category: imageData.category || 'general',
+        display_order: imageData.displayOrder || 0,
+        is_active: true,
+      }])
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(`Failed to create gallery image: ${error.message}`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Create gallery image error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Get all active gallery images
+ * @returns {Promise<Array>} - Array of gallery images
+ */
+export const getGalleryImages = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('gallery_images')
+      .select('*')
+      .eq('is_active', true)
+      .order('display_order', { ascending: true });
+
+    if (error) {
+      throw new Error(`Failed to fetch gallery images: ${error.message}`);
+    }
+
+    return data || [];
+  } catch (error) {
+    console.error('Get gallery images error:', error);
+    return [];
+  }
+};
+
+/**
+ * Get all gallery images (including inactive ones) for admin
+ * @returns {Promise<Array>} - Array of all gallery images
+ */
+export const getAllGalleryImagesAdmin = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('gallery_images')
+      .select('*')
+      .order('display_order', { ascending: true });
+
+    if (error) {
+      throw new Error(`Failed to fetch gallery images: ${error.message}`);
+    }
+
+    return data || [];
+  } catch (error) {
+    console.error('Get all gallery images error:', error);
+    return [];
+  }
+};
+
+/**
+ * Update a gallery image
+ * @param {string} id - Image ID
+ * @param {Object} updates - Fields to update
+ * @returns {Promise<Object>} - Updated image data
+ */
+export const updateGalleryImage = async (id, updates) => {
+  try {
+    const { data, error } = await supabase
+      .from('gallery_images')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(`Failed to update gallery image: ${error.message}`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Update gallery image error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete a gallery image
+ * @param {string} id - Image ID
+ * @returns {Promise<void>}
+ */
+export const deleteGalleryImage = async (id) => {
+  try {
+    const { error } = await supabase
+      .from('gallery_images')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      throw new Error(`Failed to delete gallery image: ${error.message}`);
+    }
+  } catch (error) {
+    console.error('Delete gallery image error:', error);
+    throw error;
+  }
+};
+
 export default {
   createSupabaseBooking,
   getConfirmedBookings,
   uploadReceiptToStorage,
+  uploadGalleryImageToStorage,
+  createGalleryImage,
+  getGalleryImages,
+  getAllGalleryImagesAdmin,
+  updateGalleryImage,
+  deleteGalleryImage,
 };

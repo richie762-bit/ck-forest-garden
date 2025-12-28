@@ -1,25 +1,51 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import ImageSlideshow from '../gallery/ImageSlideshow';
+import { getGalleryImages } from '../../services/supabaseService';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 /**
  * Gallery Component
- * Image gallery section with actual photos
+ * Image gallery section with actual photos from database
  */
 const Gallery = () => {
-  const galleryItems = [
-    {
-      image: '/assets/images/gallery/campfire.jpg',
-      title: 'Cozy Campfire',
-    },
-    {
-      image: '/assets/images/gallery/Overhead.jpg',
-      title: 'Aerial Views',
-    },
-    {
-      image: '/assets/images/gallery/Heart.jpg',
-      title: 'Nature\'s Heart',
-    },
-  ];
+  const [galleryItems, setGalleryItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchGalleryImages();
+  }, []);
+
+  const fetchGalleryImages = async () => {
+    try {
+      const images = await getGalleryImages();
+      // Take first 3 images for the preview grid
+      const previewImages = images.slice(0, 3).map(img => ({
+        image: img.image_url,
+        title: img.title,
+      }));
+      setGalleryItems(previewImages);
+    } catch (error) {
+      console.error('Failed to load gallery images:', error);
+      // Fallback to default images if fetch fails
+      setGalleryItems([
+        {
+          image: '/assets/images/gallery/campfire.jpg',
+          title: 'Cozy Campfire',
+        },
+        {
+          image: '/assets/images/gallery/Overhead.jpg',
+          title: 'Aerial Views',
+        },
+        {
+          image: '/assets/images/gallery/Heart.jpg',
+          title: 'Nature\'s Heart',
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section id="gallery" className="section bg-gray-50">
@@ -36,8 +62,13 @@ const Gallery = () => {
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {galleryItems.map((item, index) => (
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <LoadingSpinner size="large" text="Loading gallery..." />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {galleryItems.map((item, index) => (
             <div
               key={index}
               className="card overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300"
@@ -61,8 +92,9 @@ const Gallery = () => {
                 </h3>
               </div>
             </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Image Slideshow */}
         <ImageSlideshow />
