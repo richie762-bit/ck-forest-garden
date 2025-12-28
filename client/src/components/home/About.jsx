@@ -11,7 +11,7 @@ const About = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Welcome to <span className="gradient-text">Camp Kabouyak</span>
+            Welcome to <span className="gradient-text">CK Forest Garden</span>
           </h2>
           <p className="text-lg text-gray-600">
             A 60-acre fruit forest farm where nature meets adventure
@@ -61,7 +61,7 @@ const About = () => {
               You'll travel about 2.5 miles down an unpaved road of sand and red loam to reach us.
             </p>
             <p className="text-gray-600 mb-4 leading-relaxed">
-              Here's the thing—when you come to CK, the whole place is yours. Bring your crew, crank up the music
+              When you come to CK, the whole place is yours. Bring your crew, crank up the music
               if that's your vibe, or just soak in the peace and quiet. It's your space to make what you want of it.
               We're here to share our fruit forest with you, not tell you how to enjoy it.
             </p>
@@ -109,7 +109,7 @@ const About = () => {
             <h3 className="text-lg font-bold text-gray-900 mb-2">Sleep Under the Trees</h3>
             <p className="text-sm text-gray-600">
               We've got four A-frame pods that fit about 4 people each, plus a main area for hanging out.
-              Bring your camping gear, or borrow our inflatable mattresses.
+              Bring your camping gear, or rent our inflatable mattresses.
             </p>
           </div>
 
