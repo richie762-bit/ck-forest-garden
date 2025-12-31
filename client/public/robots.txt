@@ -1,0 +1,10 @@
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /admin/*
+
+# Sitemap location
+Sitemap: https://www.ckforestgardens.com/sitemap.xml

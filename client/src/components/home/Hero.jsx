@@ -52,14 +52,14 @@ const Hero = () => {
           {/* Left Content */}
           <div className="text-center lg:text-left animate-slide-up">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Welcome to
+              Welcome to{' '}
               <span className="block mt-2 bg-gradient-to-r from-accent-400 to-accent-500 bg-clip-text text-transparent">
-                CK Forest Gardens
+                CK Forest Garden
               </span>
             </h1>
             <p className="text-lg md:text-xl text-primary-100 mb-8 max-w-2xl mx-auto lg:mx-0">
-              Experience the pristine beauty of Guyana's nature. From peaceful forest walks to
-              adventurous camping, create unforgettable memories in nature's paradise.
+              A 60-acre fruit forest farm in Guyana where you can explore 30+ tropical fruits,
+              camp under the stars, swim, fish, and completely disconnect from the digital world.
             </p>
 
             {/* CTA Buttons */}
