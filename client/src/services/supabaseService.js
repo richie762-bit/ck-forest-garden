@@ -254,6 +254,8 @@ export const getAllGalleryImagesAdmin = async () => {
  */
 export const updateGalleryImage = async (id, updates) => {
   try {
+    console.log('Updating gallery image:', id, updates);
+
     const { data, error } = await supabase
       .from('gallery_images')
       .update(updates)
@@ -262,9 +264,11 @@ export const updateGalleryImage = async (id, updates) => {
       .single();
 
     if (error) {
+      console.error('Supabase update error:', error);
       throw new Error(`Failed to update gallery image: ${error.message}`);
     }
 
+    console.log('Update successful:', data);
     return data;
   } catch (error) {
     console.error('Update gallery image error:', error);

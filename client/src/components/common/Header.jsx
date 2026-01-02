@@ -90,16 +90,6 @@ const Header = () => {
             >
               Gallery
             </NavLink>
-            <NavLink
-              to="/terms"
-              className={({ isActive }) =>
-                `font-medium transition-colors ${
-                  isActive ? 'text-primary-600' : 'text-gray-700 hover:text-primary-600'
-                }`
-              }
-            >
-              Terms & Policies
-            </NavLink>
 
             {/* Admin Links */}
             {isAuthenticated ? (
@@ -119,14 +109,7 @@ const Header = () => {
                   Logout
                 </button>
               </div>
-            ) : (
-              <Link
-                to="/admin/login"
-                className="ml-4 pl-4 border-l border-gray-300 text-gray-700 hover:text-primary-600 font-medium transition-colors"
-              >
-                Admin Login
-              </Link>
-            )}
+            ) : null}
           </div>
 
           {/* Mobile Menu Button */}
@@ -197,17 +180,6 @@ const Header = () => {
                 }
               >
                 Gallery
-              </NavLink>
-              <NavLink
-                to="/terms"
-                onClick={closeMobileMenu}
-                className={({ isActive }) =>
-                  `text-left font-medium transition-colors ${
-                    isActive ? 'text-primary-600' : 'text-gray-700 hover:text-primary-600'
-                  }`
-                }
-              >
-                Terms & Policies
               </NavLink>
 
               {/* Admin Links Mobile */}
