@@ -254,7 +254,15 @@ export const getAllGalleryImagesAdmin = async () => {
  */
 export const updateGalleryImage = async (id, updates) => {
   try {
-    console.log('Updating gallery image:', id, updates);
+    console.log('Updating gallery image:', { id, updates });
+
+    // First, verify the user is authenticated
+    const { data: { user } } = await supabase.auth.getUser();
+    console.log('Current user:', user ? user.email : 'Not authenticated');
+
+    if (!user) {
+      throw new Error('You must be logged in to update gallery images');
+    }
 
     const { data, error } = await supabase
       .from('gallery_images')
@@ -264,8 +272,17 @@ export const updateGalleryImage = async (id, updates) => {
       .single();
 
     if (error) {
-      console.error('Supabase update error:', error);
-      throw new Error(`Failed to update gallery image: ${error.message}`);
+      console.error('Supabase update error details:', {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint
+      });
+      throw new Error(`Database error: ${error.message} (Code: ${error.code})`);
+    }
+
+    if (!data) {
+      throw new Error('No data returned from update - image may not exist');
     }
 
     console.log('Update successful:', data);
