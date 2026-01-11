@@ -66,18 +66,26 @@ export const AuthProvider = ({ children }) => {
         // Record failed attempt in database with progressive delays
         const attemptRecord = await recordFailedLoginAttempt(email);
 
-        // Progressive delays based on attempt count
+        // Progressive delays based on attempt count (5 attempts threshold - NDMA compliant)
         if (attemptRecord.isLocked) {
-          // 3rd attempt - locked
+          // 5th attempt - locked for 15 minutes
           throw new Error(`Account temporarily locked due to multiple failed login attempts. Please try again in 15 minutes.`);
-        } else if (attemptRecord.attempt_count === 2) {
-          // 2nd attempt - 5 second delay
+        } else if (attemptRecord.attempt_count === 4) {
+          // 4th attempt - 10 second delay, final warning
+          await new Promise(resolve => setTimeout(resolve, 10000));
+          throw new Error(`Invalid credentials. WARNING: Account will be locked after one more failed attempt. (${5 - attemptRecord.attempt_count} attempt remaining)`);
+        } else if (attemptRecord.attempt_count === 3) {
+          // 3rd attempt - 5 second delay
           await new Promise(resolve => setTimeout(resolve, 5000));
-          throw new Error(`Invalid credentials. Warning: Account will be locked after one more failed attempt. (${3 - attemptRecord.attempt_count} attempt remaining)`);
+          throw new Error(`Invalid credentials. (${5 - attemptRecord.attempt_count} attempts remaining before lockout)`);
+        } else if (attemptRecord.attempt_count === 2) {
+          // 2nd attempt - 3 second delay
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          throw new Error(`Invalid email or password. (${5 - attemptRecord.attempt_count} attempts remaining before lockout)`);
         } else {
           // 1st attempt - 2 second delay
           await new Promise(resolve => setTimeout(resolve, 2000));
-          throw new Error(`Invalid email or password. (${3 - attemptRecord.attempt_count} attempts remaining before lockout)`);
+          throw new Error(`Invalid email or password. (${5 - attemptRecord.attempt_count} attempts remaining before lockout)`);
         }
       }
 

@@ -394,8 +394,8 @@ export const recordFailedLoginAttempt = async (email) => {
       const newAttemptCount = existing.attempt_count + 1;
       let lockedUntil = null;
 
-      // Lock after 3 attempts (15 minutes)
-      if (newAttemptCount >= 3) {
+      // Lock after 5 attempts (15 minutes) - NDMA Compliance
+      if (newAttemptCount >= 5) {
         const lockoutDate = new Date();
         lockoutDate.setMinutes(lockoutDate.getMinutes() + 15);
         lockedUntil = lockoutDate.toISOString();

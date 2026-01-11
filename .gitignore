@@ -63,6 +63,14 @@ Thumbs.db
 .secret
 .secrets
 
+# Security audit reports - SENSITIVE
+NDMA_COMPLIANCE_AUDIT_REPORT.md
+*COMPLIANCE*.md
+*AUDIT*.md
+DATABASE_LOGIN_SETUP.md
+ADMIN_UNLOCK_GUIDE.md
+LOGIN_SECURITY.md
+
 # Vercel
 .vercel
 .vercel.json

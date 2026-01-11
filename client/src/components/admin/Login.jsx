@@ -170,7 +170,7 @@ const Login = () => {
                 <div className="flex items-start gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
                   <p className="text-xs text-amber-800">
-                    <strong>Security Notice:</strong> Account will be temporarily locked for 15 minutes after 3 failed login attempts.
+                    <strong>Security Notice:</strong> Account will be temporarily locked for 15 minutes after 5 failed login attempts (NDMA compliant).
                   </p>
                 </div>
               </div>
