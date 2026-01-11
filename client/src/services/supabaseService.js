@@ -314,6 +314,230 @@ export const deleteGalleryImage = async (id) => {
   }
 };
 
+/**
+ * ====================
+ * LOGIN ATTEMPT TRACKING (Database-Based)
+ * ====================
+ */
+
+/**
+ * Get login attempt record for an email
+ * @param {string} email - Email address
+ * @returns {Promise<Object|null>} - Login attempt record or null
+ */
+export const getLoginAttempts = async (email) => {
+  try {
+    const { data, error } = await supabase
+      .from('login_attempts')
+      .select('*')
+      .eq('email', email)
+      .single();
+
+    if (error) {
+      // If no record exists, that's okay - return null
+      if (error.code === 'PGRST116') {
+        return null;
+      }
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Get login attempts error:', error);
+    return null;
+  }
+};
+
+/**
+ * Record a failed login attempt
+ * @param {string} email - Email address
+ * @returns {Promise<Object>} - Updated login attempt record with lockout info
+ */
+export const recordFailedLoginAttempt = async (email) => {
+  try {
+    // Get existing record
+    const existing = await getLoginAttempts(email);
+
+    if (existing) {
+      // Check if currently locked
+      if (existing.locked_until) {
+        const lockoutTime = new Date(existing.locked_until);
+        const now = new Date();
+
+        if (now < lockoutTime) {
+          // Still locked
+          return {
+            ...existing,
+            isLocked: true,
+            remainingMinutes: Math.ceil((lockoutTime - now) / 60000)
+          };
+        } else {
+          // Lockout expired, reset attempts
+          const { data, error } = await supabase
+            .from('login_attempts')
+            .update({
+              attempt_count: 1,
+              locked_until: null,
+              last_attempt_at: new Date().toISOString()
+            })
+            .eq('email', email)
+            .select()
+            .single();
+
+          if (error) throw error;
+
+          return { ...data, isLocked: false };
+        }
+      }
+
+      // Increment attempt count
+      const newAttemptCount = existing.attempt_count + 1;
+      let lockedUntil = null;
+
+      // Lock after 3 attempts (15 minutes)
+      if (newAttemptCount >= 3) {
+        const lockoutDate = new Date();
+        lockoutDate.setMinutes(lockoutDate.getMinutes() + 15);
+        lockedUntil = lockoutDate.toISOString();
+      }
+
+      const { data, error } = await supabase
+        .from('login_attempts')
+        .update({
+          attempt_count: newAttemptCount,
+          locked_until: lockedUntil,
+          last_attempt_at: new Date().toISOString()
+        })
+        .eq('email', email)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      return {
+        ...data,
+        isLocked: !!lockedUntil,
+        remainingMinutes: lockedUntil ? 15 : 0
+      };
+    } else {
+      // Create new record with first attempt
+      const { data, error } = await supabase
+        .from('login_attempts')
+        .insert({
+          email,
+          attempt_count: 1,
+          last_attempt_at: new Date().toISOString()
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      return { ...data, isLocked: false };
+    }
+  } catch (error) {
+    console.error('Record failed login attempt error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Check if an email is currently locked out
+ * @param {string} email - Email address
+ * @returns {Promise<Object>} - Lockout status { isLocked, remainingMinutes, attemptCount }
+ */
+export const checkLoginLockout = async (email) => {
+  try {
+    const record = await getLoginAttempts(email);
+
+    if (!record) {
+      return { isLocked: false, attemptCount: 0, remainingMinutes: 0 };
+    }
+
+    if (record.locked_until) {
+      const lockoutTime = new Date(record.locked_until);
+      const now = new Date();
+
+      if (now < lockoutTime) {
+        return {
+          isLocked: true,
+          attemptCount: record.attempt_count,
+          remainingMinutes: Math.ceil((lockoutTime - now) / 60000),
+          lockoutUntil: lockoutTime.getTime()
+        };
+      } else {
+        // Lockout expired, auto-clear it
+        await supabase
+          .from('login_attempts')
+          .update({
+            attempt_count: 0,
+            locked_until: null
+          })
+          .eq('email', email);
+
+        return { isLocked: false, attemptCount: 0, remainingMinutes: 0 };
+      }
+    }
+
+    return {
+      isLocked: false,
+      attemptCount: record.attempt_count,
+      remainingMinutes: 0
+    };
+  } catch (error) {
+    console.error('Check login lockout error:', error);
+    return { isLocked: false, attemptCount: 0, remainingMinutes: 0 };
+  }
+};
+
+/**
+ * Clear login attempts for an email (on successful login)
+ * @param {string} email - Email address
+ * @returns {Promise<void>}
+ */
+export const clearLoginAttempts = async (email) => {
+  try {
+    const { error } = await supabase
+      .from('login_attempts')
+      .update({
+        attempt_count: 0,
+        locked_until: null
+      })
+      .eq('email', email);
+
+    if (error && error.code !== 'PGRST116') {
+      throw error;
+    }
+  } catch (error) {
+    console.error('Clear login attempts error:', error);
+    // Don't throw - this shouldn't block successful login
+  }
+};
+
+/**
+ * Admin function: Manually unlock an account
+ * @param {string} email - Email address to unlock
+ * @returns {Promise<void>}
+ */
+export const unlockAccount = async (email) => {
+  try {
+    const { error } = await supabase
+      .from('login_attempts')
+      .update({
+        attempt_count: 0,
+        locked_until: null
+      })
+      .eq('email', email);
+
+    if (error && error.code !== 'PGRST116') {
+      throw error;
+    }
+  } catch (error) {
+    console.error('Unlock account error:', error);
+    throw error;
+  }
+};
+
 export default {
   createSupabaseBooking,
   getConfirmedBookings,
@@ -324,4 +548,10 @@ export default {
   getAllGalleryImagesAdmin,
   updateGalleryImage,
   deleteGalleryImage,
+  // Login attempt tracking
+  getLoginAttempts,
+  recordFailedLoginAttempt,
+  checkLoginLockout,
+  clearLoginAttempts,
+  unlockAccount,
 };

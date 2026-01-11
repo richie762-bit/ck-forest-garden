@@ -1,5 +1,10 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../config/supabase';
+import {
+  checkLoginLockout,
+  recordFailedLoginAttempt,
+  clearLoginAttempts
+} from '../services/supabaseService';
 import toast from 'react-hot-toast';
 
 /**
@@ -40,82 +45,14 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   /**
-   * Check if account is locked out due to too many failed attempts
-   */
-  const checkLockout = (email) => {
-    const lockoutKey = `login_lockout_${email}`;
-    const attemptsKey = `login_attempts_${email}`;
-
-    const lockoutUntil = localStorage.getItem(lockoutKey);
-
-    if (lockoutUntil) {
-      const lockoutTime = parseInt(lockoutUntil);
-      const now = Date.now();
-
-      if (now < lockoutTime) {
-        const remainingMinutes = Math.ceil((lockoutTime - now) / 60000);
-        return {
-          isLocked: true,
-          remainingMinutes,
-          lockoutUntil: lockoutTime
-        };
-      } else {
-        // Lockout expired, clear data
-        localStorage.removeItem(lockoutKey);
-        localStorage.removeItem(attemptsKey);
-      }
-    }
-
-    return { isLocked: false };
-  };
-
-  /**
-   * Record failed login attempt and implement progressive delays
-   */
-  const recordFailedAttempt = async (email) => {
-    const attemptsKey = `login_attempts_${email}`;
-    const lockoutKey = `login_lockout_${email}`;
-
-    let attempts = parseInt(localStorage.getItem(attemptsKey) || '0');
-    attempts += 1;
-    localStorage.setItem(attemptsKey, attempts.toString());
-
-    // Progressive delays based on OWASP recommendations
-    if (attempts >= 3) {
-      // Lock account for 15 minutes after 3 failed attempts
-      const lockoutUntil = Date.now() + (15 * 60 * 1000); // 15 minutes
-      localStorage.setItem(lockoutKey, lockoutUntil.toString());
-      throw new Error(`Account temporarily locked due to multiple failed login attempts. Please try again in 15 minutes.`);
-    } else if (attempts === 2) {
-      // 5 second delay on 2nd attempt
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      throw new Error(`Invalid credentials. Warning: Account will be locked after one more failed attempt. (${3 - attempts} attempt remaining)`);
-    } else {
-      // 2 second delay on 1st attempt
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      throw new Error(`Invalid email or password. (${3 - attempts} attempts remaining before lockout)`);
-    }
-  };
-
-  /**
-   * Clear failed login attempts on successful login
-   */
-  const clearFailedAttempts = (email) => {
-    const attemptsKey = `login_attempts_${email}`;
-    const lockoutKey = `login_lockout_${email}`;
-    localStorage.removeItem(attemptsKey);
-    localStorage.removeItem(lockoutKey);
-  };
-
-  /**
-   * Login function using Supabase Auth with rate limiting
+   * Login function using Supabase Auth with database-based rate limiting
    */
   const login = async (email, password) => {
     try {
       setLoading(true);
 
-      // Check if account is locked out
-      const lockoutStatus = checkLockout(email);
+      // Check if account is locked out (from database)
+      const lockoutStatus = await checkLoginLockout(email);
       if (lockoutStatus.isLocked) {
         throw new Error(`Account temporarily locked. Please try again in ${lockoutStatus.remainingMinutes} minute${lockoutStatus.remainingMinutes > 1 ? 's' : ''}.`);
       }
@@ -126,14 +63,27 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (error) {
-        // Record failed attempt with progressive delays
-        await recordFailedAttempt(email);
-        throw error; // This line won't be reached due to throw in recordFailedAttempt
+        // Record failed attempt in database with progressive delays
+        const attemptRecord = await recordFailedLoginAttempt(email);
+
+        // Progressive delays based on attempt count
+        if (attemptRecord.isLocked) {
+          // 3rd attempt - locked
+          throw new Error(`Account temporarily locked due to multiple failed login attempts. Please try again in 15 minutes.`);
+        } else if (attemptRecord.attempt_count === 2) {
+          // 2nd attempt - 5 second delay
+          await new Promise(resolve => setTimeout(resolve, 5000));
+          throw new Error(`Invalid credentials. Warning: Account will be locked after one more failed attempt. (${3 - attemptRecord.attempt_count} attempt remaining)`);
+        } else {
+          // 1st attempt - 2 second delay
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          throw new Error(`Invalid email or password. (${3 - attemptRecord.attempt_count} attempts remaining before lockout)`);
+        }
       }
 
       if (data.user && data.session) {
-        // Clear failed attempts on successful login
-        clearFailedAttempts(email);
+        // Clear failed attempts on successful login (from database)
+        await clearLoginAttempts(email);
         toast.success('Login successful!');
         return { success: true };
       } else {

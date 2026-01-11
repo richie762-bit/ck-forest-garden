@@ -36,7 +36,7 @@ The system implements a progressive delay mechanism that increases with each fai
 - **Threshold**: 3 failed attempts
 - **Lockout Duration**: 15 minutes
 - **Scope**: Per email address (allows legitimate users with different emails)
-- **Storage**: localStorage (client-side tracking)
+- **Storage**: Supabase database (`login_attempts` table) - centralized, cross-device tracking
 
 ### Security Rationale
 
@@ -51,25 +51,30 @@ The system implements a progressive delay mechanism that increases with each fai
 
 ## Implementation Details
 
-### Client-Side Tracking
+### Database Tracking
 
-```javascript
-// localStorage keys per email:
-login_attempts_{email}  // Count of failed attempts
-login_lockout_{email}   // Timestamp when lockout expires
-```
+**Table**: `login_attempts`
 
-**Why Client-Side?**
-- No server-side state management needed
-- Works seamlessly with Supabase Auth
-- Protects against client-side automated attacks
-- Reduces server load from blocked attempts
+| Column | Type | Description |
+|--------|------|-------------|
+| `email` | VARCHAR(255) | Email address |
+| `attempt_count` | INTEGER | Failed attempt count |
+| `locked_until` | TIMESTAMPTZ | Lockout expiration |
+| `last_attempt_at` | TIMESTAMPTZ | Most recent attempt |
 
-**Limitations**:
-- User can clear localStorage to bypass (but still rate-limited by Supabase)
-- Per-device only (not cross-device)
+**Why Database Storage?**
+- ✅ Centralized management - unlock accounts from database
+- ✅ Cross-device enforcement - lockout applies everywhere
+- ✅ Audit trail - track all failed login attempts
+- ✅ Admin control - view and manage lockouts via SQL
+- ✅ Cannot be bypassed by clearing browser data
+- ✅ Persistent across sessions and devices
 
-**Note**: This client-side protection is the first line of defense. Supabase Auth provides additional server-side rate limiting.
+**Benefits Over Client-Side**:
+- Administrators can unlock accounts manually from database
+- Security team can monitor failed login patterns
+- Cross-device protection (user can't switch devices to bypass)
+- Centralized security logging and analytics
 
 ### Security Features
 
@@ -103,18 +108,28 @@ Attempt 3: 🔒 15-minute lockout → "Account temporarily locked. Please try ag
 ### AuthContext.jsx
 
 **Functions**:
-- `checkLockout(email)`: Checks if account is locked and returns status
-- `recordFailedAttempt(email)`: Increments attempts, implements delays, triggers lockout
-- `clearFailedAttempts(email)`: Removes tracking data on successful login
-- `login(email, password)`: Enhanced with rate limiting checks
+- `login(email, password)`: Enhanced with database-based rate limiting checks
+- Uses `checkLoginLockout()` from supabaseService
+- Uses `recordFailedLoginAttempt()` to track failures
+- Uses `clearLoginAttempts()` on successful login
+
+### supabaseService.js
+
+**Login Attempt Functions**:
+- `getLoginAttempts(email)`: Get login attempt record from database
+- `recordFailedLoginAttempt(email)`: Record failed attempt with progressive delays
+- `checkLoginLockout(email)`: Check current lockout status
+- `clearLoginAttempts(email)`: Clear attempts on successful login
+- `unlockAccount(email)`: Admin function to manually unlock accounts
 
 ### Login.jsx
 
 **Features**:
-- Real-time lockout status checking
+- Real-time lockout status checking from database
 - Countdown timer display
 - Form field disabling during lockout
 - Visual lockout warnings
+- Uses `checkLoginLockout()` to fetch status from database
 
 ## Testing the Implementation
 
@@ -237,15 +252,31 @@ if (attempts >= 3) {  // Change threshold
 
 ### Clearing Lockouts (Admin)
 
-If a legitimate user is locked out and needs immediate access:
+If a legitimate user is locked out and needs immediate access, unlock them from the database:
 
-```javascript
-// Open browser console and run:
-const email = 'user@example.com';
-localStorage.removeItem(`login_lockout_${email}`);
-localStorage.removeItem(`login_attempts_${email}`);
-// User can now try logging in again
+**Method 1: Using Supabase SQL Editor**
+```sql
+-- Unlock specific account
+UPDATE login_attempts
+SET attempt_count = 0,
+    locked_until = NULL
+WHERE email = 'user@example.com';
 ```
+
+**Method 2: Using Supabase Table Editor**
+1. Go to Supabase Dashboard → Table Editor
+2. Select `login_attempts` table
+3. Find the user's row
+4. Set `attempt_count` to `0` and `locked_until` to `NULL`
+5. Save
+
+**Method 3: Programmatically (if building admin panel)**
+```javascript
+import { unlockAccount } from './services/supabaseService';
+await unlockAccount('user@example.com');
+```
+
+**See [ADMIN_UNLOCK_GUIDE.md](ADMIN_UNLOCK_GUIDE.md) for complete database management guide.**
 
 ### Monitoring
 
@@ -255,16 +286,30 @@ Consider implementing these monitoring practices:
 2. **Monitor failed attempt patterns**: Sudden spikes could indicate attack attempts
 3. **User feedback**: Collect feedback on whether the 3-attempt threshold and 15-minute lockout duration are appropriate
 
+## Current Implementation Status
+
+✅ **Implemented**:
+- Database-based lockout tracking (Supabase `login_attempts` table)
+- Cross-device enforcement
+- Admin unlock capabilities via database
+- Audit trail of failed login attempts
+- Progressive delays (2s, 5s)
+- 3-attempt threshold with 15-minute lockout
+- Real-time countdown timers
+- Visual security warnings
+
 ## Future Enhancements
 
 Potential improvements to consider:
 
-1. **Server-Side Enforcement**: Move tracking to Supabase database for cross-device protection
-2. **IP-Based Limits**: Block IPs with excessive failed attempts
-3. **Geolocation Checks**: Alert on login attempts from unusual locations
-4. **Device Fingerprinting**: Recognize trusted devices
-5. **Risk-Based Authentication**: Adjust security based on context (time, location, device)
-6. **Passwordless Authentication**: Magic links or WebAuthn for enhanced security
+1. **IP-Based Limits**: Block IPs with excessive failed attempts across multiple accounts
+2. **Geolocation Checks**: Alert on login attempts from unusual locations
+3. **Device Fingerprinting**: Recognize trusted devices
+4. **Risk-Based Authentication**: Adjust security based on context (time, location, device)
+5. **Passwordless Authentication**: Magic links or WebAuthn for enhanced security
+6. **Admin Dashboard**: Web UI for viewing/managing lockouts (currently SQL-based)
+7. **Email Notifications**: Alert users of failed login attempts on their account
+8. **CAPTCHA**: Add CAPTCHA after first or second failed attempt
 
 ---
 

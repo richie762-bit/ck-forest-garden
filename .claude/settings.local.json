@@ -31,7 +31,8 @@
       "Bash(done)",
       "Bash(git restore:*)",
       "Bash(a 60-acre fruit forest farm. Explore 30+ tropical fruits, camp under the)",
-      "Bash(stars, swim, fish, and completely disconnect from the digital world...\"\n\nNote: Google takes 24-48 hours to update search results after re-crawling.\nUse Google Search Console to request immediate re-indexing.\n\nFor Favicon in Google Search:\n1. Create favicon.ico from Logo.jpg \\(see FAVICON_INSTRUCTIONS.md\\)\n2. Place in client/public/favicon.ico\n3. Request Google re-crawl via Search Console\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(stars, swim, fish, and completely disconnect from the digital world...\"\n\nNote: Google takes 24-48 hours to update search results after re-crawling.\nUse Google Search Console to request immediate re-indexing.\n\nFor Favicon in Google Search:\n1. Create favicon.ico from Logo.jpg \\(see FAVICON_INSTRUCTIONS.md\\)\n2. Place in client/public/favicon.ico\n3. Request Google re-crawl via Search Console\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(powershell -Command:*)"
     ],
     "deny": [],
     "ask": []

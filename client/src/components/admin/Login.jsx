@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Mail, Lock, LogIn, AlertTriangle, Clock } from 'lucide-react';
 import { loginSchema } from '../../utils/validation';
 import { useAuth } from '../../context/AuthContext';
+import { checkLoginLockout } from '../../services/supabaseService';
 import LoadingSpinner from '../common/LoadingSpinner';
 
 /**
@@ -35,7 +36,7 @@ const Login = () => {
    */
   useEffect(() => {
     if (emailValue) {
-      checkLockoutStatus(emailValue);
+      checkLockoutStatusFromDB(emailValue);
     }
   }, [emailValue]);
 
@@ -52,7 +53,7 @@ const Login = () => {
           setLockoutInfo(null);
           setRemainingTime(null);
           if (emailValue) {
-            checkLockoutStatus(emailValue);
+            checkLockoutStatusFromDB(emailValue);
           }
         } else {
           const minutes = Math.floor(remaining / 60000);
@@ -66,31 +67,24 @@ const Login = () => {
   }, [lockoutInfo, emailValue]);
 
   /**
-   * Check if account is currently locked out
+   * Check if account is currently locked out (from database)
    */
-  const checkLockoutStatus = (email) => {
-    const lockoutKey = `login_lockout_${email}`;
-    const lockoutUntil = localStorage.getItem(lockoutKey);
+  const checkLockoutStatusFromDB = async (email) => {
+    try {
+      const status = await checkLoginLockout(email);
 
-    if (lockoutUntil) {
-      const lockoutTime = parseInt(lockoutUntil);
-      const now = Date.now();
-
-      if (now < lockoutTime) {
-        const remainingMinutes = Math.ceil((lockoutTime - now) / 60000);
+      if (status.isLocked) {
         setLockoutInfo({
           isLocked: true,
-          remainingMinutes,
-          lockoutUntil: lockoutTime
+          remainingMinutes: status.remainingMinutes,
+          lockoutUntil: status.lockoutUntil
         });
       } else {
-        // Lockout expired
-        localStorage.removeItem(lockoutKey);
-        localStorage.removeItem(`login_attempts_${email}`);
         setLockoutInfo(null);
         setRemainingTime(null);
       }
-    } else {
+    } catch (error) {
+      console.error('Error checking lockout status:', error);
       setLockoutInfo(null);
       setRemainingTime(null);
     }
@@ -114,8 +108,8 @@ const Login = () => {
     } else {
       // Show security notice after first failed attempt
       setShowSecurityNotice(true);
-      // Refresh lockout status after failed login
-      checkLockoutStatus(data.email);
+      // Refresh lockout status after failed login (from database)
+      await checkLockoutStatusFromDB(data.email);
     }
   };
 
