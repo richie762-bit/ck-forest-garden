@@ -1,18 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Mail, Lock, LogIn } from 'lucide-react';
+import { Mail, Lock, LogIn, AlertTriangle, Clock } from 'lucide-react';
 import { loginSchema } from '../../utils/validation';
 import { useAuth } from '../../context/AuthContext';
 import LoadingSpinner from '../common/LoadingSpinner';
 
 /**
  * Login Component
- * Admin login form
+ * Admin login form with rate limiting and lockout protection
  */
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [lockoutInfo, setLockoutInfo] = useState(null);
+  const [remainingTime, setRemainingTime] = useState(null);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -20,11 +22,85 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm({
     resolver: zodResolver(loginSchema),
   });
 
+  const emailValue = watch('email');
+
+  /**
+   * Check lockout status on component mount and when email changes
+   */
+  useEffect(() => {
+    if (emailValue) {
+      checkLockoutStatus(emailValue);
+    }
+  }, [emailValue]);
+
+  /**
+   * Update remaining time countdown
+   */
+  useEffect(() => {
+    if (lockoutInfo?.lockoutUntil) {
+      const interval = setInterval(() => {
+        const now = Date.now();
+        const remaining = lockoutInfo.lockoutUntil - now;
+
+        if (remaining <= 0) {
+          setLockoutInfo(null);
+          setRemainingTime(null);
+          if (emailValue) {
+            checkLockoutStatus(emailValue);
+          }
+        } else {
+          const minutes = Math.floor(remaining / 60000);
+          const seconds = Math.floor((remaining % 60000) / 1000);
+          setRemainingTime(`${minutes}:${seconds.toString().padStart(2, '0')}`);
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [lockoutInfo, emailValue]);
+
+  /**
+   * Check if account is currently locked out
+   */
+  const checkLockoutStatus = (email) => {
+    const lockoutKey = `login_lockout_${email}`;
+    const lockoutUntil = localStorage.getItem(lockoutKey);
+
+    if (lockoutUntil) {
+      const lockoutTime = parseInt(lockoutUntil);
+      const now = Date.now();
+
+      if (now < lockoutTime) {
+        const remainingMinutes = Math.ceil((lockoutTime - now) / 60000);
+        setLockoutInfo({
+          isLocked: true,
+          remainingMinutes,
+          lockoutUntil: lockoutTime
+        });
+      } else {
+        // Lockout expired
+        localStorage.removeItem(lockoutKey);
+        localStorage.removeItem(`login_attempts_${email}`);
+        setLockoutInfo(null);
+        setRemainingTime(null);
+      }
+    } else {
+      setLockoutInfo(null);
+      setRemainingTime(null);
+    }
+  };
+
   const onSubmit = async (data) => {
+    // Check lockout before attempting login
+    if (lockoutInfo?.isLocked) {
+      return;
+    }
+
     setIsLoading(true);
 
     const result = await login(data.email, data.password);
@@ -33,6 +109,9 @@ const Login = () => {
 
     if (result.success) {
       navigate('/admin/packages');
+    } else {
+      // Refresh lockout status after failed login
+      checkLockoutStatus(data.email);
     }
   };
 
@@ -66,6 +145,37 @@ const Login = () => {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Lockout Warning */}
+            {lockoutInfo?.isLocked && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-red-900 mb-1">Account Temporarily Locked</h4>
+                    <p className="text-sm text-red-700 mb-2">
+                      Too many failed login attempts. Please wait before trying again.
+                    </p>
+                    {remainingTime && (
+                      <div className="flex items-center gap-2 text-sm font-medium text-red-800">
+                        <Clock className="w-4 h-4" />
+                        Time remaining: {remainingTime}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Security Info */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <div className="flex items-start gap-2">
+                <Lock className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-blue-800">
+                  <strong>Security Notice:</strong> Account will be temporarily locked for 15 minutes after 6 failed login attempts.
+                </p>
+              </div>
+            </div>
+
             {/* Email */}
             <div>
               <label className="label">
@@ -78,6 +188,7 @@ const Login = () => {
                 className={`input ${errors.email ? 'input-error' : ''}`}
                 placeholder="admin@ckforestgarden.com"
                 autoComplete="email"
+                disabled={lockoutInfo?.isLocked}
               />
               {errors.email && <p className="error-text">{errors.email.message}</p>}
             </div>
@@ -94,6 +205,7 @@ const Login = () => {
                 className={`input ${errors.password ? 'input-error' : ''}`}
                 placeholder="Enter your password"
                 autoComplete="current-password"
+                disabled={lockoutInfo?.isLocked}
               />
               {errors.password && <p className="error-text">{errors.password.message}</p>}
             </div>
@@ -102,10 +214,15 @@ const Login = () => {
             <button
               type="submit"
               className="btn btn-primary w-full py-4 text-lg"
-              disabled={isLoading}
+              disabled={isLoading || lockoutInfo?.isLocked}
             >
               {isLoading ? (
                 <LoadingSpinner size="small" text="Signing in..." />
+              ) : lockoutInfo?.isLocked ? (
+                <>
+                  <Clock className="w-5 h-5 mr-2 inline" />
+                  Account Locked
+                </>
               ) : (
                 <>
                   <LogIn className="w-5 h-5 mr-2 inline" />
