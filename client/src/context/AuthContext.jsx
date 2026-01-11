@@ -81,22 +81,19 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem(attemptsKey, attempts.toString());
 
     // Progressive delays based on OWASP recommendations
-    if (attempts >= 6) {
-      // Lock account for 15 minutes after 6 failed attempts
+    if (attempts >= 3) {
+      // Lock account for 15 minutes after 3 failed attempts
       const lockoutUntil = Date.now() + (15 * 60 * 1000); // 15 minutes
       localStorage.setItem(lockoutKey, lockoutUntil.toString());
       throw new Error(`Account temporarily locked due to multiple failed login attempts. Please try again in 15 minutes.`);
-    } else if (attempts === 5) {
-      // 5 second delay on 5th attempt
+    } else if (attempts === 2) {
+      // 5 second delay on 2nd attempt
       await new Promise(resolve => setTimeout(resolve, 5000));
-      throw new Error(`Invalid credentials. Warning: Account will be locked after one more failed attempt. (${6 - attempts} attempt remaining)`);
-    } else if (attempts >= 3) {
-      // 2 second delay on 3rd and 4th attempts
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      throw new Error(`Invalid credentials. Warning: Too many failed attempts. (${6 - attempts} attempts remaining)`);
+      throw new Error(`Invalid credentials. Warning: Account will be locked after one more failed attempt. (${3 - attempts} attempt remaining)`);
     } else {
-      // No delay for first 2 attempts
-      throw new Error(`Invalid email or password. (${6 - attempts} attempts remaining before lockout)`);
+      // 2 second delay on 1st attempt
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      throw new Error(`Invalid email or password. (${3 - attempts} attempts remaining before lockout)`);
     }
   };
 

@@ -19,10 +19,9 @@ The system implements a progressive delay mechanism that increases with each fai
 
 | Attempt # | Delay | Message |
 |-----------|-------|---------|
-| 1-2 | None | Immediate feedback with remaining attempts counter |
-| 3-4 | 2 seconds | Warning message with attempts remaining |
-| 5 | 5 seconds | Final warning (1 attempt remaining) |
-| 6+ | 15 minutes lockout | Account temporarily locked |
+| 1 | 2 seconds | Warning with remaining attempts counter + Security notice appears |
+| 2 | 5 seconds | Final warning (1 attempt remaining) |
+| 3+ | 15 minutes lockout | Account temporarily locked |
 
 ### Why Progressive Delays?
 
@@ -34,7 +33,7 @@ The system implements a progressive delay mechanism that increases with each fai
 
 ### Lockout Parameters
 
-- **Threshold**: 6 failed attempts
+- **Threshold**: 3 failed attempts
 - **Lockout Duration**: 15 minutes
 - **Scope**: Per email address (allows legitimate users with different emails)
 - **Storage**: localStorage (client-side tracking)
@@ -46,9 +45,9 @@ The system implements a progressive delay mechanism that increases with each fai
 - Long enough to deter automated attacks
 - Short enough not to frustrate legitimate users who forgot their password
 
-**6-Attempt Threshold**:
+**3-Attempt Threshold**:
 - NIST suggests 3-10 attempts before lockout
-- 6 attempts balances security with usability (accounts for typos, caps lock, etc.)
+- 3 attempts provides strong security while still allowing for a typo or caps lock error
 
 ## Implementation Details
 
@@ -84,7 +83,7 @@ login_lockout_{email}   // Timestamp when lockout expires
 
 ### Visual Feedback
 
-1. **Security Notice**: Blue info box explaining the 6-attempt policy
+1. **Security Notice**: Amber warning box that appears after first failed attempt, explaining the 3-attempt policy
 2. **Lockout Warning**: Red alert box when account is locked with countdown timer
 3. **Attempt Counter**: Error messages show "X attempts remaining before lockout"
 4. **Progressive Warnings**: Messages escalate in urgency as attempts increase
@@ -92,12 +91,11 @@ login_lockout_{email}   // Timestamp when lockout expires
 ### Example User Flow
 
 ```
-Attempt 1: ❌ "Invalid email or password. (5 attempts remaining before lockout)"
-Attempt 2: ❌ "Invalid email or password. (4 attempts remaining before lockout)"
-Attempt 3: ⏱️ 2-second delay → ❌ "Invalid credentials. Warning: Too many failed attempts. (3 attempts remaining)"
-Attempt 4: ⏱️ 2-second delay → ❌ "Invalid credentials. Warning: Too many failed attempts. (2 attempts remaining)"
-Attempt 5: ⏱️ 5-second delay → ❌ "Warning: Account will be locked after one more failed attempt. (1 attempt remaining)"
-Attempt 6: 🔒 15-minute lockout → "Account temporarily locked. Please try again in 15 minutes."
+Attempt 1: ⏱️ 2-second delay → ❌ "Invalid email or password. (2 attempts remaining before lockout)"
+           → 🟨 Amber security notice appears: "Account will be locked for 15 minutes after 3 failed attempts"
+Attempt 2: ⏱️ 5-second delay → ❌ "Warning: Account will be locked after one more failed attempt. (1 attempt remaining)"
+Attempt 3: 🔒 15-minute lockout → "Account temporarily locked. Please try again in 15 minutes."
+           → 🔴 Red lockout alert with countdown timer (e.g., "Time remaining: 14:57")
 ```
 
 ## Code Architecture
@@ -122,33 +120,40 @@ Attempt 6: 🔒 15-minute lockout → "Account temporarily locked. Please try ag
 
 ### Manual Testing Steps
 
-1. **Test Progressive Delays**:
-   - Enter wrong password 5 times
-   - Observe increasing delays and warning messages
+1. **Test Security Notice Appearance**:
+   - Enter wrong password once
+   - Verify amber security notice appears after first failed attempt
+   - Verify 2-second delay on first attempt
+
+2. **Test Progressive Delays**:
+   - Enter wrong password 2 times
+   - Observe increasing delays (2s then 5s)
+   - Verify warning messages escalate in urgency
    - Verify attempt counter decrements correctly
 
-2. **Test Lockout**:
-   - Enter wrong password 6 times
+3. **Test Lockout**:
+   - Enter wrong password 3 times total
    - Verify account locks for 15 minutes
    - Verify countdown timer displays and updates
    - Verify form fields are disabled
 
-3. **Test Lockout Expiry**:
+4. **Test Lockout Expiry**:
    - Wait for lockout to expire (or set shorter duration for testing)
    - Verify form re-enables automatically
    - Verify attempt counter resets
 
-4. **Test Successful Login**:
-   - Make 3 failed attempts
+5. **Test Successful Login**:
+   - Make 1-2 failed attempts
    - Enter correct credentials
    - Verify attempt counter is cleared
+   - Verify security notice disappears
    - Verify no delays on next login
 
 ### Testing Different Emails
 
 The rate limiting is per-email, so you can test by:
 ```
-test1@example.com → Lock it out (6 attempts)
+test1@example.com → Lock it out (3 attempts)
 test2@example.com → Should work independently
 ```
 
@@ -209,23 +214,24 @@ To modify the security settings, edit [AuthContext.jsx](client/src/context/AuthC
 ```javascript
 // In recordFailedAttempt function:
 
-if (attempts >= 6) {  // Change threshold
+if (attempts >= 3) {  // Change threshold
   const lockoutUntil = Date.now() + (15 * 60 * 1000); // Change duration
   // ...
-} else if (attempts === 5) {
+} else if (attempts === 2) {
   await new Promise(resolve => setTimeout(resolve, 5000)); // Change delay
   // ...
-} else if (attempts >= 3) {
-  await new Promise(resolve => setTimeout(resolve, 2000)); // Change delay
+} else {
+  await new Promise(resolve => setTimeout(resolve, 2000)); // Change delay (1st attempt)
   // ...
 }
 ```
 
 ### Recommended Values
 
-- **Development**: Lower thresholds for testing (3 attempts, 2-minute lockout)
-- **Production**: Current values (6 attempts, 15-minute lockout)
-- **High Security**: Stricter limits (4 attempts, 30-minute lockout, CAPTCHA after 2 attempts)
+- **Development**: Lower thresholds for testing (2 attempts, 2-minute lockout)
+- **Production**: Current values (3 attempts, 15-minute lockout)
+- **Higher Security**: Stricter limits (2 attempts, 30-minute lockout, CAPTCHA after 1 attempt)
+- **More Lenient**: Relaxed limits (5 attempts, 10-minute lockout)
 
 ## Maintenance
 
@@ -245,9 +251,9 @@ localStorage.removeItem(`login_attempts_${email}`);
 
 Consider implementing these monitoring practices:
 
-1. **Track lockout frequency**: If many users hit lockouts, password policy may be too complex
+1. **Track lockout frequency**: If many users hit lockouts (3 attempts), password policy may be too complex or users need training
 2. **Monitor failed attempt patterns**: Sudden spikes could indicate attack attempts
-3. **User feedback**: Collect feedback on whether lockout duration is appropriate
+3. **User feedback**: Collect feedback on whether the 3-attempt threshold and 15-minute lockout duration are appropriate
 
 ## Future Enhancements
 

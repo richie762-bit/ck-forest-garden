@@ -15,6 +15,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [lockoutInfo, setLockoutInfo] = useState(null);
   const [remainingTime, setRemainingTime] = useState(null);
+  const [showSecurityNotice, setShowSecurityNotice] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -108,8 +109,11 @@ const Login = () => {
     setIsLoading(false);
 
     if (result.success) {
+      setShowSecurityNotice(false);
       navigate('/admin/packages');
     } else {
+      // Show security notice after first failed attempt
+      setShowSecurityNotice(true);
       // Refresh lockout status after failed login
       checkLockoutStatus(data.email);
     }
@@ -166,15 +170,18 @@ const Login = () => {
               </div>
             )}
 
-            {/* Security Info */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-              <div className="flex items-start gap-2">
-                <Lock className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                <p className="text-xs text-blue-800">
-                  <strong>Security Notice:</strong> Account will be temporarily locked for 15 minutes after 6 failed login attempts.
-                </p>
+            {/* Security Notice - Shows after first failed attempt */}
+            {showSecurityNotice && !lockoutInfo?.isLocked && (
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                <div className="flex items-start gap-2">
+                  <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-xs text-amber-800">
+                    <strong>Security Notice:</strong> Account will be temporarily locked for 15 minutes after 3 failed login attempts.
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
+
 
             {/* Email */}
             <div>
