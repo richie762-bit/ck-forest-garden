@@ -64,11 +64,6 @@ const Hero = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            {/* Floating badge */}
-            <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-lg px-6 py-4 border border-gray-100">
-              <div className="text-2xl font-bold text-primary-600">GYD 5,000</div>
-              <div className="text-sm text-gray-500">per adult · kids under 12 free</div>
-            </div>
           </div>
         </div>
       </div>
