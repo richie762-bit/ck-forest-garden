@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ImageSlideshow from '../gallery/ImageSlideshow';
 import { getGalleryImages } from '../../services/supabaseService';
@@ -106,12 +105,14 @@ const Gallery = () => {
             Join hundreds of satisfied visitors who have experienced the magic of CK Forest
             Garden. Book your visit today!
           </p>
-          <Link
-            to="/pricing#pricing"
+          <a
+            href="https://ckforesttours.com/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn btn-primary px-8 py-4 text-lg inline-block"
           >
             Book Your Experience
-          </Link>
+          </a>
         </div>
       </div>
     </section>

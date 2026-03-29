@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 /**
  * Activities Component
  * Showcases available activities
@@ -90,12 +88,14 @@ const Activities = () => {
               Book your visit today and experience all the amazing activities CK Forest Gardens
               has to offer. Perfect for groups of 10 or more!
             </p>
-            <Link
-              to="/pricing#pricing"
+            <a
+              href="https://ckforesttours.com/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn btn-accent px-8 py-4 text-lg inline-block"
             >
               View Packages & Book Now
-            </Link>
+            </a>
           </div>
         </div>
 

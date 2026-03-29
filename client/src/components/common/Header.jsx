@@ -71,16 +71,6 @@ const Header = () => {
               Activities
             </NavLink>
             <NavLink
-              to="/pricing"
-              className={({ isActive }) =>
-                `font-medium transition-colors ${
-                  isActive ? 'text-primary-600' : 'text-gray-700 hover:text-primary-600'
-                }`
-              }
-            >
-              Packages
-            </NavLink>
-            <NavLink
               to="/gallery"
               className={({ isActive }) =>
                 `font-medium transition-colors ${

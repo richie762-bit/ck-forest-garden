@@ -27,7 +27,7 @@ const Hero = () => {
   }, [images.length]);
 
   return (
-    <section id="home" className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
+    <section id="home" className="relative text-white overflow-hidden">
       {/* Background Slideshow */}
       <div className="absolute inset-0">
         {images.map((image, index) => (
@@ -44,96 +44,104 @@ const Hero = () => {
             />
           </div>
         ))}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/85 to-primary-900/90"></div>
+        {/* Light, airy overlay — lets the photography breathe */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/20 to-primary-900/50"></div>
       </div>
 
-      <div className="relative container-custom py-20 md:py-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="relative container-custom py-24 md:py-40">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left Content */}
           <div className="text-center lg:text-left animate-slide-up">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Welcome to{' '}
-              <span className="block mt-2 bg-gradient-to-r from-accent-400 to-accent-500 bg-clip-text text-transparent">
-                CK Forest Garden
+            <p className="text-sm uppercase tracking-widest text-white/90 font-medium mb-4">
+              Guyana's hidden retreat
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 drop-shadow-md">
+              Come as you are.{' '}
+              <span className="block mt-2">
+                Leave refreshed.
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-primary-100 mb-8 max-w-2xl mx-auto lg:mx-0">
-              A 60-acre fruit forest farm in Guyana where you can explore 30+ tropical fruits,
-              camp under the stars, swim, fish, and completely disconnect from the digital world.
+            <p className="text-lg md:text-xl text-white/90 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed drop-shadow-sm">
+              Sixty acres of living forest in the heart of Guyana. Wander among 30 varieties
+              of tropical fruit, cool off in the stream, gather around a fire, and let the
+              outside world wait.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Link
-                to="/pricing"
-                className="btn btn-accent px-8 py-4 text-lg"
+              <a
+                href="https://ckforesttours.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-accent px-8 py-4 text-lg shadow-lg"
               >
                 <Calendar className="w-5 h-5 mr-2 inline" />
-                Book Your Visit
-              </Link>
+                Plan Your Visit
+              </a>
               <Link
                 to="/about"
-                className="btn btn-secondary px-8 py-4 text-lg bg-white/10 border-white/30 hover:bg-white/20 text-white"
+                className="btn btn-secondary px-8 py-4 text-lg bg-white/20 border-white/40 hover:bg-white/35 text-white backdrop-blur-sm"
               >
                 Learn More
               </Link>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 mt-12 pt-12 border-t border-white/20">
+            <div className="grid grid-cols-3 gap-6 mt-14 pt-10 border-t border-white/30">
               <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-accent-400">500+</div>
-                <div className="text-sm text-primary-200 mt-1">Happy Visitors</div>
+                <div className="text-3xl font-bold text-white drop-shadow">500+</div>
+                <div className="text-sm text-white/80 mt-1">Happy Visitors</div>
               </div>
               <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-accent-400">50+</div>
-                <div className="text-sm text-primary-200 mt-1">Acres of Nature</div>
+                <div className="text-3xl font-bold text-white drop-shadow">50+</div>
+                <div className="text-sm text-white/80 mt-1">Acres of Nature</div>
               </div>
               <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-accent-400">10+</div>
-                <div className="text-sm text-primary-200 mt-1">Activities</div>
+                <div className="text-3xl font-bold text-white drop-shadow">10+</div>
+                <div className="text-sm text-white/80 mt-1">Things to Do</div>
               </div>
             </div>
           </div>
 
           {/* Right Content - Feature Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-fade-in">
-            <div className="card bg-white/10 backdrop-blur-md p-6 border border-white/20">
-              <div className="w-12 h-12 bg-accent-500 rounded-lg flex items-center justify-center mb-4">
-                <MapPin className="w-6 h-6 text-white" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 animate-fade-in">
+            <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+              <div className="w-11 h-11 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
+                <MapPin className="w-5 h-5 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Prime Location</h3>
-              <p className="text-primary-100 text-sm">
-                Nestled in the heart of Guyana's lush landscapes, easily accessible yet
-                peacefully secluded.
+              <h3 className="text-gray-800 text-lg font-semibold mb-2">Easy to Reach</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                Nestled in the lush Guyanese countryside — close enough to get to,
+                far enough to feel like a true escape.
               </p>
             </div>
 
-            <div className="card bg-white/10 backdrop-blur-md p-6 border border-white/20">
-              <div className="w-12 h-12 bg-accent-500 rounded-lg flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-white" />
+            <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+              <div className="w-11 h-11 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
+                <Users className="w-5 h-5 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Group Friendly</h3>
-              <p className="text-primary-100 text-sm">
-                Perfect for families, friends, and corporate events. Minimum 10 adults per
-                booking.
+              <h3 className="text-gray-800 text-lg font-semibold mb-2">Groups Welcome</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                Bring the family, invite your friends, or plan a team getaway.
+                We host groups of 10 adults or more.
               </p>
             </div>
 
-            <div className="card bg-white/10 backdrop-blur-md p-6 border border-white/20">
-              <div className="w-12 h-12 bg-accent-500 rounded-lg flex items-center justify-center mb-4">
-                <Calendar className="w-6 h-6 text-white" />
+            <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+              <div className="w-11 h-11 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
+                <Calendar className="w-5 h-5 text-primary-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Easy Booking</h3>
-              <p className="text-primary-100 text-sm">
-                Simple online booking process. Reserve your spot in just a few clicks.
+              <h3 className="text-gray-800 text-lg font-semibold mb-2">Simple Booking</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                Reserve your spot online in just a few steps. We keep the process
+                as unhurried as the garden itself.
               </p>
             </div>
 
-            <div className="card bg-white/10 backdrop-blur-md p-6 border border-white/20">
-              <div className="w-12 h-12 bg-accent-500 rounded-lg flex items-center justify-center mb-4">
+            <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+              <div className="w-11 h-11 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
                 <svg
-                  className="w-6 h-6 text-white"
+                  className="w-5 h-5 text-primary-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -146,9 +154,9 @@ const Hero = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Affordable Rates</h3>
-              <p className="text-primary-100 text-sm">
-                GYD 5,000 per adult per day. Children under 12 visit absolutely FREE!
+              <h3 className="text-gray-800 text-lg font-semibold mb-2">Honest Pricing</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                GYD 5,000 per adult per day. Children under 12 are always free.
               </p>
             </div>
           </div>

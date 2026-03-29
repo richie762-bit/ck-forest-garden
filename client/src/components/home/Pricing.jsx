@@ -177,7 +177,7 @@ const Pricing = () => {
 
                     {/* Book Button */}
                     <a
-                      href="https://thestormkingg.github.io/ck-forest-gardens-booking-app/"
+                      href="https://ckforesttours.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn btn-primary w-full py-2.5 text-sm text-center inline-block mt-3"
