@@ -8,13 +8,13 @@
   }
 
   body {
-    @apply bg-gray-50 text-gray-900 antialiased;
-    overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+    @apply bg-white text-gray-900 antialiased;
+    overflow-x: hidden;
   }
 
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-x: hidden;
   }
 }
 
@@ -38,6 +38,10 @@
 
   .btn-danger {
     @apply bg-red-500 text-white hover:bg-red-600 focus:ring-red-500;
+  }
+
+  .btn-outline-white {
+    @apply border-2 border-white text-white hover:bg-white hover:text-gray-900 focus:ring-white;
   }
 
   /* Card Styles */
@@ -77,6 +81,16 @@
   /* Gradient Text */
   .gradient-text {
     @apply bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent;
+  }
+
+  /* Section label (small caps above headings) */
+  .section-label {
+    @apply text-xs md:text-sm uppercase tracking-widest font-semibold text-primary-500 mb-3 block;
+  }
+
+  /* Section heading using display font */
+  .section-heading {
+    @apply font-display text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight;
   }
 
   /* Badge */
@@ -121,12 +135,30 @@
     background: #555;
   }
 
+  /* Scroll Reveal Animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+
   /* Backdrop Blur */
   .backdrop-blur-custom {
     backdrop-filter: blur(10px);
   }
 
-  /* Mobile Touch Optimization - Larger touch targets and better interaction */
+  /* Mobile Touch Optimization */
   .touch-manipulation {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;

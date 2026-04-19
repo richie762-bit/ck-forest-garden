@@ -1,147 +1,131 @@
-import { MapPin, Wifi, Home, Car } from 'lucide-react';
+import { MapPin, Wifi, Home, Car, Leaf } from 'lucide-react';
 
-/**
- * About Component
- * About section with location and experience information
- */
+const features = [
+  {
+    icon: MapPin,
+    title: 'Getting Here',
+    text: 'A 4x4 is recommended for the 2.5-mile unpaved road, though regular cars manage in dry weather. Follow the sand and red loam road and you will find us.',
+  },
+  {
+    icon: Wifi,
+    title: 'Unplug and Recharge',
+    text: 'Completely off-grid — no mains electricity, limited signal. A few spots do catch a bar or two if you need to check in with the outside world.',
+  },
+  {
+    icon: Home,
+    title: 'Sleep Under the Trees',
+    text: 'Four A-frame pods sleep around 4 people each. Bring your own camping gear, or rent our inflatable mattresses.',
+  },
+  {
+    icon: Car,
+    title: 'Bring Your Own Gear',
+    text: 'Pack your camping essentials — that is why overnight stays are free. Your adventure, your way. We provide the forest.',
+  },
+];
+
 const About = () => {
   return (
     <section id="about" className="section bg-white">
       <div className="container-custom">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Welcome to <span className="gradient-text">CK Forest Garden</span>
+        {/* Section header */}
+        <div className="text-center max-w-3xl mx-auto mb-16 reveal">
+          <span className="section-label">Our Story</span>
+          <h2 className="section-heading">
+            Welcome to{' '}
+            <span className="gradient-text">CK Forest Garden</span>
           </h2>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-600 mt-4">
             A 60-acre fruit forest farm where nature meets adventure
           </p>
         </div>
 
-        {/* Introduction Section */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <div className="card p-8 bg-gradient-to-br from-primary-50 to-accent-50 border-2 border-primary-100">
-            <p className="text-gray-700 leading-relaxed mb-4">
-              <span className="font-bold text-primary-600">Camp Kabouyak (CK) Forest Gardens</span> started out as a citrus farm
-              and has blossomed into something pretty special—a 60-acre fruit forest farm tucked away near Kurukururu and Laluni
-              on the Linden-Soesdyke Highway, about 45 minutes from Timehri-Soesdyke Junction.
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              Over the years, we've transformed this land into a living fruit forest with <span className="font-semibold">over 30 different
-              types of tropical fruits</span>. It's become the perfect place to unplug from the digital world, explore nature,
-              and maybe learn a thing or two about tropical fruits along the way. We offer tours of the fruit forest and
-              welcome groups who want to experience the outdoors in their own way.
-            </p>
+        {/* Cinematic intro image */}
+        <div className="max-w-5xl mx-auto mb-20 reveal">
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+            <img
+              src="/assets/images/gallery/Advert.jpg"
+              alt="CK Forest Gardens — Nature's Paradise in Guyana"
+              className="w-full h-72 md:h-96 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex items-end">
+              <div className="p-8 md:p-12">
+                <blockquote className="text-white text-xl md:text-2xl font-display font-semibold leading-relaxed max-w-2xl">
+                  "Started as a citrus farm, grown into something extraordinary — a living fruit forest
+                  with over 30 tropical varieties."
+                </blockquote>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-          {/* Left - Featured Image */}
-          <div className="relative">
-            <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
+        {/* Two-column layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center mb-20">
+          {/* Left: aerial photo */}
+          <div className="relative reveal">
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
               <img
                 src="/assets/images/gallery/Overhead.jpg"
-                alt="CK Forest Gardens Aerial View"
+                alt="Aerial view of CK Forest Gardens — 60 acres of tropical forest"
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-accent-500/20 rounded-2xl -z-10"></div>
-            <div className="absolute -top-6 -left-6 w-48 h-48 bg-primary-500/20 rounded-2xl -z-10"></div>
+            <div className="absolute -bottom-5 -right-5 w-40 h-40 bg-primary-100 rounded-2xl -z-10" />
+            <div className="absolute -top-5 -left-5 w-40 h-40 bg-accent-100 rounded-2xl -z-10" />
           </div>
 
-          {/* Right - Location & Experience */}
-          <div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+          {/* Right: text */}
+          <div className="reveal reveal-delay-2">
+            <h3 className="font-display text-2xl md:text-3xl font-bold text-gray-900 mb-5">
               Make It Your Own
             </h3>
-            <p className="text-gray-600 mb-4 leading-relaxed">
-              We're tucked away just off the new Silica City development on the Linden-Soesdyke Highway, near
-              Laluni—a little village with history (it used to grow tobacco for the Demerara Tobacco Company!).
-              You'll travel about 2.5 miles down an unpaved road of sand and red loam to reach us.
-            </p>
-            <p className="text-gray-600 mb-4 leading-relaxed">
-              When you come to CK, the whole place is yours. Bring your crew, crank up the music
-              if that's your vibe, or just soak in the peace and quiet. It's your space to make what you want of it.
-              We're here to share our fruit forest with you, not tell you how to enjoy it.
-            </p>
-            <div className="bg-primary-50 p-4 rounded-lg border-l-4 border-primary-500">
-              <h4 className="font-bold text-gray-900 mb-2">What You Can Do Here:</h4>
-              <ul className="text-sm text-gray-700 space-y-1">
-                <li>• Take a dip in our man-made natural pool</li>
-                <li>• Try your luck fishing in the ponds scattered around</li>
-                <li>• Play volleyball, cricket, or football in the open spaces</li>
-                <li>• Join a guided tour through our 30+ fruit forest</li>
-                <li>• Escape the notifications and reconnect with nature</li>
+            <div className="space-y-4 text-gray-600 leading-relaxed">
+              <p>
+                <strong className="text-primary-600">Camp Kabouyak (CK) Forest Gardens</strong> sits
+                near Kurukururu and Laluni on the Linden-Soesdyke Highway — about 45 minutes from
+                Timehri-Soesdyke Junction. You will travel 2.5 miles down an unpaved road of sand and
+                red loam to reach us.
+              </p>
+              <p>
+                When you come to CK, the whole place is yours. Bring your crew, crank up the music
+                if that is your vibe, or just soak in the peace and quiet. We are here to share our
+                fruit forest with you — not to tell you how to enjoy it.
+              </p>
+            </div>
+
+            <div className="mt-6 bg-primary-50 border-l-4 border-primary-500 rounded-r-xl p-5">
+              <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                <Leaf className="w-4 h-4 text-primary-500" />
+                What you can do here
+              </h4>
+              <ul className="space-y-1.5 text-sm text-gray-700">
+                {[
+                  'Take a dip in our man-made natural pool',
+                  'Try your luck fishing in the ponds',
+                  'Play volleyball, cricket, or football',
+                  'Take a guided tour through 30+ fruit varieties',
+                  'Escape notifications and reconnect with nature',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 bg-primary-500 rounded-full mt-2 shrink-0" />
+                    {item}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
         </div>
 
-        {/* Experience Features */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          <div className="card p-6">
-            <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-              <MapPin className="w-6 h-6 text-primary-600" />
+        {/* Feature cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map(({ icon: Icon, title, text }, i) => (
+            <div key={title} className={`card p-6 reveal reveal-delay-${i + 1}`}>
+              <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
+                <Icon className="w-6 h-6 text-primary-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{title}</h3>
+              <p className="text-sm text-gray-600 leading-relaxed">{text}</p>
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Getting Here</h3>
-            <p className="text-sm text-gray-600">
-              The road's a bit rough—we recommend a 4x4, but regular cars can make it when the weather's good.
-              Just follow the sand and red loam, and you'll find us!
-            </p>
-          </div>
-
-          <div className="card p-6">
-            <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-              <Wifi className="w-6 h-6 text-primary-600" />
-            </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Unplug & Recharge</h3>
-            <p className="text-sm text-gray-600">
-              We're completely off-grid—no electricity, spotty cell service. Perfect for getting away from it all.
-              Don't worry, there are spots with signal if you need to check in.
-            </p>
-          </div>
-
-          <div className="card p-6">
-            <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-              <Home className="w-6 h-6 text-primary-600" />
-            </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Sleep Under the Trees</h3>
-            <p className="text-sm text-gray-600">
-              We've got four A-frame pods that fit about 4 people each, plus a main area for hanging out.
-              Bring your camping gear, or rent our inflatable mattresses.
-            </p>
-          </div>
-
-          <div className="card p-6">
-            <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-              <Car className="w-6 h-6 text-primary-600" />
-            </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">BYOG (Bring Your Own Gear)</h3>
-            <p className="text-sm text-gray-600">
-              Pack your own camping stuff—that's why staying overnight is free! Your adventure,
-              your way. We'll provide the fruit forest.
-            </p>
-          </div>
-        </div>
-
-        {/* Transition to Timeline */}
-        <div className="text-center max-w-3xl mx-auto">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t-2 border-gray-200"></div>
-            </div>
-            <div className="relative flex justify-center">
-              <span className="bg-white px-6 py-2 text-gray-500 text-sm font-medium">
-                How We Got Here
-              </span>
-            </div>
-          </div>
-          <p className="text-gray-600 mt-6 leading-relaxed">
-            Rome wasn't built in a day, and neither was CK Forest Gardens. This place has been a labor of love—
-            years of clearing, planting, digging, and dreaming. What started as raw bush land has grown into
-            the fruit forest you see today. Want to know how it all happened? Let's walk through it.
-          </p>
+          ))}
         </div>
       </div>
     </section>

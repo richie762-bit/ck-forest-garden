@@ -1,13 +1,12 @@
+import useScrollReveal from '../hooks/useScrollReveal';
 import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
 import About from '../components/home/About';
 import Timeline from '../components/about/Timeline';
 
-/**
- * AboutPage Component
- * Dedicated page for About section with timeline
- */
 const AboutPage = () => {
+  useScrollReveal();
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />

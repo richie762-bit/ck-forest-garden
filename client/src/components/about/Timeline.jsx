@@ -131,11 +131,12 @@ const Timeline = () => {
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <span className="section-label">History</span>
+          <h2 className="section-heading">
             The <span className="gradient-text">Transformation</span>
           </h2>
-          <p className="text-lg text-gray-600">
-            Follow our journey through the years
+          <p className="text-lg text-gray-600 mt-4">
+            Follow our journey through the years — from raw bush land to living forest.
           </p>
         </div>
 
